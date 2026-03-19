@@ -47,7 +47,7 @@
   .fmt-badge{font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:5px;border:1px solid var(--border2);color:var(--white4)}
   .fmt-badge.ok{border-color:rgba(5,177,105,0.3);background:rgba(5,177,105,0.06);color:var(--green)}
 
-  .ex-list{display:flex;flex-direction:column;gap:2px;max-height:220px;overflow-y:auto;padding-right:2px}
+  .ex-list{display:flex;flex-direction:column;gap:2px;max-height:260px;overflow-y:auto;padding-right:2px}
   .ex-list::-webkit-scrollbar{width:3px}
   .ex-list::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
   .ex-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:7px;font-size:13px;font-weight:500;color:var(--white2);cursor:pointer;transition:all 0.15s;border:1px solid transparent}
@@ -56,8 +56,6 @@
   .ex-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);flex-shrink:0;transition:background 0.15s}
   .ex-item.active .ex-dot{background:var(--blue3)}
   .ex-item:hover .ex-dot{background:var(--white3)}
-  .ex-fmt{margin-left:auto;font-family:var(--mono);font-size:9px;color:var(--white4);letter-spacing:0.5px}
-  .ex-item.active .ex-fmt{color:var(--blue3)}
 
   .parse-bar{margin-top:10px;padding:10px 12px;border-radius:8px;font-family:var(--mono);font-size:11px;line-height:1.5;display:none}
   .parse-bar.loading{background:var(--blue-faint);border:1px solid rgba(22,82,240,0.2);color:var(--blue3)}
@@ -154,7 +152,7 @@
 <script>if(typeof pdfjsLib!=='undefined')pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
 
 <header>
-  <a href="txcrypto-landing.html" class="logo">
+  <a href="index.html" class="logo">
     <div class="logo-icon">Tx</div>TxCrypto<span class="logo-sub">/ UK Tax Assistant</span>
   </a>
   <div class="status-pill"><div class="status-dot"></div>Tax year 2024–25</div>
@@ -194,6 +192,7 @@
           <div class="ex-item" id="eb-bitstamp" onclick="setEx('bitstamp')"><span class="ex-dot"></span>Bitstamp</div>
           <div class="ex-item" id="eb-bitpanda" onclick="setEx('bitpanda')"><span class="ex-dot"></span>Bitpanda</div>
           <div class="ex-item" id="eb-binance"  onclick="setEx('binance')"><span class="ex-dot"></span>Binance</div>
+          <div class="ex-item" id="eb-uphold"   onclick="setEx('uphold')"><span class="ex-dot"></span>Uphold</div>
         </div>
       </div>
 
@@ -232,7 +231,6 @@
       </div>
     </div>
     <div class="cib">
-
       <div class="ir">
         <textarea class="cta" id="ci" placeholder="Ask anything about your tax position..." rows="1"
           onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"
@@ -250,7 +248,6 @@
 <script>
 let PD=null, CH=[], SEX=null;
 
-// ── EXCHANGE MAPS ─────────────────────────────────────────────────
 const MAPS={
   etoro:{
     detect:h=>h.some(x=>x==='position id'||x==='action'||x==='open rate'||x==='instrument name'||x==='copied from'||x==='realized equity change'||x==='open date'||x==='close date'),
@@ -362,6 +359,17 @@ const MAPS={
     profit:['realized profit','pnl'],
     map:{'buy':'BUY','sell':'SELL','deposit':null,'withdrawal':null,'staking rewards':'INCOME','distribution':'INCOME'}
   },
+  uphold:{
+    detect:h=>h.some(x=>x==='destination'||x==='origin'||(x.includes('destination amount')&&h.some(y=>y.includes('origin amount')))||h.some(x=>x==='type'&&h.some(y=>y==='destination currency'||y==='origin currency'))),
+    date:['date','timestamp','created at'],
+    type:['type'],
+    asset:['destination currency','origin currency','currency'],
+    qty:['destination amount','origin amount','amount'],
+    price:['destination rate','rate','price'],
+    proceeds:['destination amount','origin amount','total'],
+    profit:[],
+    map:{'buy':'BUY','sell':'SELL','in':'BUY','out':'SELL','transfer':'BUY','exchange':'BUY','deposit':null,'withdrawal':null,'reward':'INCOME','staking':'INCOME'}
+  },
   generic:{
     detect:()=>true,
     date:['date','time','datetime','timestamp','completed date'],
@@ -388,6 +396,7 @@ const GUIDES={
   bitstamp:`<div class="ig-title">HOW TO EXPORT FROM BITSTAMP</div><div class="ig-step"><span class="ig-num">1.</span>Go to Transactions → All transactions</div><div class="ig-step"><span class="ig-num">2.</span>Click Export to CSV</div><div class="ig-step"><span class="ig-num">3.</span>Upload the file above</div>`,
   bitpanda:`<div class="ig-title">HOW TO EXPORT FROM BITPANDA</div><div class="ig-step"><span class="ig-num">1.</span>Go to My Account → History</div><div class="ig-step"><span class="ig-num">2.</span>Click Export → Download CSV</div><div class="ig-step"><span class="ig-num">3.</span>Upload the file above</div>`,
   binance:`<div class="ig-title">HOW TO EXPORT FROM BINANCE</div><div class="ig-step"><span class="ig-num">1.</span>Go to Wallet → Transaction History</div><div class="ig-step"><span class="ig-num">2.</span>Click Export → Select date range</div><div class="ig-step"><span class="ig-num">3.</span>Download → Upload above</div>`,
+  uphold:`<div class="ig-title">HOW TO EXPORT FROM UPHOLD</div><div class="ig-step"><span class="ig-num">1.</span>Log in to uphold.com → Go to Activity</div><div class="ig-step"><span class="ig-num">2.</span>Click "Download" or "Export" (top right)</div><div class="ig-step"><span class="ig-num">3.</span>Select date range → Download CSV</div><div class="ig-step"><span class="ig-num">4.</span>Upload the file above</div>`,
 };
 
 function setEx(n){
@@ -415,24 +424,12 @@ function parseXLS(f){
   r.onload=e=>{
     try{
       const wb=XLSX.read(new Uint8Array(e.target.result),{type:'array',cellDates:true});
-
-      // eToro has multiple sheets — priority order for finding transactions
-      const SHEET_PRIORITY=[
-        'closed positions',    // eToro: main trade history
-        'account activity',    // eToro: all account events
-        'transactions',
-        'trade history',
-        'history',
-        'orders',
-        'trades',
-      ];
-
+      const SHEET_PRIORITY=['closed positions','account activity','transactions','trade history','history','orders','trades'];
       let sn=null;
       for(const target of SHEET_PRIORITY){
         const found=wb.SheetNames.find(n=>n.toLowerCase().trim()===target);
         if(found){sn=found;break;}
       }
-      // Fallback: pick the sheet with the most rows
       if(!sn){
         let maxRows=0;
         for(const name of wb.SheetNames){
@@ -440,21 +437,11 @@ function parseXLS(f){
           if(rows.length>maxRows){maxRows=rows.length;sn=name;}
         }
       }
-
-      status(`<span class="spin">⟳</span> Reading sheet "${sn}" (sheets found: ${wb.SheetNames.join(', ')})...`,'loading');
-
+      status(`<span class="spin">⟳</span> Reading sheet "${sn}"...`,'loading');
       const rows=XLSX.utils.sheet_to_json(wb.Sheets[sn],{raw:false,defval:''});
-      if(!rows.length){
-        status(`Sheet "${sn}" appears empty. Available sheets: ${wb.SheetNames.join(', ')}. Try selecting eToro manually and re-uploading.`,'err');
-        return;
-      }
-
+      if(!rows.length){status(`Sheet "${sn}" appears empty. Available sheets: ${wb.SheetNames.join(', ')}.`,'err');return;}
       const headers=Object.keys(rows[0]).map(h=>h.toLowerCase().trim());
       const ex=SEX||detectEx(headers);
-
-      // Debug: show what columns were found
-      console.log('Sheet:',sn,'Headers:',headers,'Exchange detected:',ex);
-
       finish(normalise(rows,ex),f.name,ex,`XLS — sheet "${sn}", ${rows.length} rows`);
     }catch(e){status(`XLS error: ${e.message}`,'err');}
   };
@@ -484,7 +471,6 @@ async function parsePDF(f){
     for(let i=1;i<=pdf.numPages;i++){
       const pg=await pdf.getPage(i);
       const ct=await pg.getTextContent();
-      // Preserve line breaks by grouping items by vertical position
       const items=ct.items;
       let lastY=null;
       for(const item of items){
@@ -495,17 +481,10 @@ async function parsePDF(f){
       }
       txt+='\n';
     }
-    if(!txt.trim()){status('PDF appears to be a scanned image — text could not be extracted. Export as XLS from eToro instead.','err');return;}
-    
+    if(!txt.trim()){status('PDF appears to be a scanned image — text could not be extracted.','err');return;}
     const fullText=txt;
     const truncated=txt.substring(0,5000);
     PD={raw:truncated,fullText:fullText,filename:f.name,format:'PDF',transactions:[],summary:{},alerts:[],isPDF:true};
-    
-    status('<span class="spin">⟳</span> PDF read — analysing your transactions...','loading');
-    document.getElementById('ws').style.display='none';
-    
-    // Auto-analyse the PDF using Claude if API key is present
-    // PDF ready — user asks questions manually (avoids timeout on free hosting)
     status(`✓ PDF read — ${pdf.numPages} page${pdf.numPages>1?'s':''}. Ask me anything below.`,'ok');
     document.getElementById('ws').style.display='none';
     addMsg('assistant',
@@ -514,12 +493,10 @@ async function parsePDF(f){
       `• "Summarise all my transactions"\n`+
       `• "How much CGT do I owe?"\n`+
       `• "What were my total gains and losses?"\n\n`+
-      `<span class="hl hb">💡 For faster and more accurate results, export as XLS from eToro: Portfolio → History → Download icon → Excel format.</span>`
+      `<span class="hl hb">💡 For faster and more accurate results, export as CSV or XLS from your exchange where possible.</span>`
     );
-  }catch(e){status(`Could not read PDF — try exporting as XLS from eToro instead.`,'err');}
+  }catch(e){status(`Could not read PDF — try exporting as CSV or XLS instead.`,'err');}
 }
-
-
 
 function detectEx(h){
   for(const[n,m] of Object.entries(MAPS)){if(n!=='generic'&&m.detect(h))return n;} return 'generic';
@@ -540,12 +517,11 @@ function normalise(rows,exName){
     const rt=col(row,m.type).toLowerCase().trim();
     const mapped=m.map[rt];
     if(mapped===null) continue;
-    // If type is unmapped but not null, try to infer from common words
     if(mapped===undefined&&rt&&!rt.includes("buy")&&!rt.includes("sell")&&!rt.includes("open")&&!rt.includes("close")&&!rt.includes("position")) continue;
     const asset=col(row,m.asset); if(!asset) continue;
     if(['usd','gbp','eur','usdt','usdc','busd',''].includes(asset.toLowerCase())) continue;
     const clean=cleanAsset(asset);
-    const profit=col(row,m.profit); 
+    const profit=col(row,m.profit);
     const gain=profit!==''?parseFloat(profit):null;
     out.push({
       date:fmtDate(col(row,m.date)),
@@ -578,7 +554,7 @@ function fmtDate(r){
 }
 
 function finish(txs,fn,ex,meta){
-  if(!txs.length){status("No valid transactions found. The columns in your file did not match the expected format.<br><br>Quick fix: Open your eToro file in Excel, go to the Closed Positions tab, File > Save As > CSV, then upload that CSV here. Or try clicking the eToro button and re-uploading.","err");return;}
+  if(!txs.length){status("No valid transactions found. The columns in your file did not match the expected format.<br><br>Try selecting your exchange from the list and re-uploading.","err");return;}
   const sells=txs.filter(t=>t.type==='SELL');
   const gains=sells.filter(t=>(t.gain||0)>0).reduce((s,t)=>s+(t.gain||0),0);
   const losses=Math.abs(sells.filter(t=>(t.gain||0)<0).reduce((s,t)=>s+(t.gain||0),0));
@@ -593,7 +569,8 @@ function finish(txs,fn,ex,meta){
   addMsg('assistant',
     `**${fn}** imported — **${txs.length} transactions** from **${exL}**.\n\n`+
     `<span class="hl ha">⚠ Estimated CGT: £${tax.toLocaleString()} — based on £${Math.round(taxable).toLocaleString()} taxable gains after your £3,000 allowance</span>\n\n`+
-    (ex==='etoro'?`<span class="hl hb">eToro note: profit figures are in USD. For accurate HMRC calculations you'll need GBP values at each transaction date. Ask me "how do I convert my eToro profits to GBP for HMRC?" for guidance.</span>\n\n`:'')+
+    (ex==='etoro'?`<span class="hl hb">eToro note: profit figures are in USD. For accurate HMRC calculations you'll need GBP values at each transaction date.</span>\n\n`:'')+
+    (ex==='uphold'?`<span class="hl hb">Uphold note: amounts may be in USD. For accurate HMRC calculations you'll need GBP values at each transaction date.</span>\n\n`:'')+
     `I can see ${sells.length} disposals with gains of **£${Math.round(gains).toLocaleString()}** and losses of **£${Math.round(losses).toLocaleString()}**.\n\nWhat would you like to know about your tax position?`
   );
 }
@@ -670,7 +647,9 @@ function buildPrompt(){
 
 UK expertise: Section 104 pooling, same-day rule, 30-day bed-and-breakfast rule, £3,000 CGT allowance (2024-25), 18% basic / 24% higher rate CGT, income tax on staking and airdrops, DeFi treatment, SA100/SA108.
 
-eToro-specific: eToro uses "Open" for BUY and "Close" for SELL. eToro profits are in USD — for HMRC you must convert to GBP at the exchange rate on each transaction date. eToro's account statement XLS has a "Account Statement" sheet with full history.
+eToro-specific: eToro uses "Open" for BUY and "Close" for SELL. eToro profits are in USD — for HMRC you must convert to GBP at the exchange rate on each transaction date.
+
+Uphold-specific: Uphold exports may show amounts in USD. For HMRC submissions, all values must be converted to GBP at the exchange rate on the date of each transaction.
 
 Be direct, specific and numerical. Flag tax-saving opportunities proactively. Caveat you are not a regulated advisor.${ctx}`;
 }
@@ -685,15 +664,10 @@ async function send(){
   CH.push({role:'user',content:text});
   const tid=showT();
   try{
-    // Calls our Netlify function — API key never touches the browser
     const r=await fetch('/.netlify/functions/chat',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        messages:CH,
-        system:buildPrompt(),
-        max_tokens:1024
-      })
+      body:JSON.stringify({messages:CH,system:buildPrompt(),max_tokens:1024})
     });
     removeT(tid);
     if(!r.ok){
@@ -750,4 +724,4 @@ uz.addEventListener('drop',e=>{
 </script>
 </body>
 </html>
-<!-- v1773917607 -->
+<!-- v1773935999 -->

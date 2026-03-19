@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TxCrypto — Interactive Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a0e1a; --navy2: #0f1523; --navy3: #161d2e; --navy4: #1d2640;
+    --blue: #1652f0; --blue2: #1a5cf5; --blue3: #4d7ef7;
+    --blue-glow: rgba(22,82,240,0.15); --blue-faint: rgba(22,82,240,0.08);
+    --white: #ffffff; --white2: #b8c2d9; --white3: #6b7a99; --white4: #3a4460;
+    --green: #05b169; --green-faint: rgba(5,177,105,0.1);
+    --red: #df5f67; --amber: #f0b429; --amber-faint: rgba(240,180,41,0.1);
+    --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12);
+    --sans: 'Plus Jakarta Sans', sans-serif; --mono: 'JetBrains Mono', monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--navy); color: var(--white); font-family: var(--sans); min-height: 100vh; display: flex; flex-direction: column; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; z-index: 0; }
+
+  header { display: flex; align-items: center; justify-content: space-between; padding: 0 28px; height: 58px; border-bottom: 1px solid var(--border); background: var(--navy2); flex-shrink: 0; position: relative; z-index: 10; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 700; font-size: 17px; color: var(--white); letter-spacing: -0.3px; }
+  .logo-icon { width: 28px; height: 28px; background: var(--blue); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; font-weight: 500; color: white; letter-spacing: -1px; }
+  .logo-sub { font-family: var(--mono); font-size: 11px; color: var(--white3); margin-left: 2px; }
+  .header-right { display: flex; align-items: center; gap: 10px; }
+  .demo-badge { font-family: var(--mono); font-size: 10px; letter-spacing: 1px; padding: 5px 12px; border-radius: 20px; background: var(--blue-faint); border: 1px solid rgba(22,82,240,0.25); color: var(--blue3); }
+  .status-pill { font-family: var(--mono); font-size: 11px; padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border2); color: var(--white3); display: flex; align-items: center; gap: 7px; }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .main { display: flex; flex: 1; overflow: hidden; height: calc(100vh - 58px); position: relative; z-index: 1; }
+
+  .left-panel { width: 300px; min-width: 300px; border-right: 1px solid var(--border); display: flex; flex-direction: column; background: var(--navy2); overflow-y: auto; }
+  .left-panel::-webkit-scrollbar { width: 3px; }
+  .left-panel::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+  .panel-section { padding: 18px; border-bottom: 1px solid var(--border); }
+  .panel-label { font-family: var(--mono); font-size: 9px; color: var(--white4); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 13px; }
+
+  /* PORTFOLIO TABS */
+  .portfolio-tabs { display: flex; flex-direction: column; gap: 7px; }
+  .p-tab { padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--navy); cursor: pointer; transition: all 0.2s; display: flex; justify-content: space-between; align-items: center; }
+  .p-tab:hover { border-color: var(--border2); }
+  .p-tab.active { border-color: rgba(22,82,240,0.4); background: var(--blue-faint); }
+  .pt-left { display: flex; flex-direction: column; gap: 3px; }
+  .pt-name { font-size: 13px; font-weight: 600; }
+  .pt-desc { font-family: var(--mono); font-size: 10px; color: var(--white4); }
+  .pt-badge { font-family: var(--mono); font-size: 9px; padding: 3px 8px; border-radius: 20px; background: var(--navy3); color: var(--white4); }
+  .p-tab.active .pt-badge { background: var(--blue-faint); color: var(--blue3); border: 1px solid rgba(22,82,240,0.2); }
+
+  .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .summary-card { background: var(--navy); border: 1px solid var(--border); border-radius: 9px; padding: 12px 11px; }
+  .s-label { font-family: var(--mono); font-size: 9px; color: var(--white4); margin-bottom: 5px; letter-spacing: 1px; text-transform: uppercase; }
+  .s-value { font-family: var(--mono); font-size: 17px; font-weight: 500; }
+  .sv-blue{color:var(--blue3)} .sv-red{color:var(--red)} .sv-amber{color:var(--amber)} .sv-green{color:var(--green)}
+  .s-sub { font-family: var(--mono); font-size: 9px; color: var(--white4); margin-top: 3px; }
+
+  .tx-list { display: flex; flex-direction: column; gap: 6px; }
+  .tx-item { background: var(--navy); border: 1px solid var(--border); border-radius: 8px; padding: 9px 11px; display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 11px; }
+  .tx-item:hover { border-color: var(--border2); }
+  .tx-left { display: flex; flex-direction: column; gap: 3px; }
+  .tx-date { font-size: 9px; color: var(--white4); }
+  .tx-right { text-align: right; }
+  .tx-gain{color:var(--green)} .tx-loss{color:var(--red)} .tx-neutral{color:var(--white3)}
+  .tx-price { font-size: 9px; color: var(--white4); }
+
+  .alert-list { display: flex; flex-direction: column; gap: 8px; }
+  .alert-item { border-radius: 8px; padding: 10px 12px; font-size: 12px; border-left: 2px solid; line-height: 1.55; color: var(--white2); }
+  .alert-item.warning { border-color: var(--amber); background: var(--amber-faint); }
+  .alert-item.tip { border-color: var(--green); background: var(--green-faint); }
+  .alert-item.info { border-color: var(--blue3); background: var(--blue-faint); }
+  .alert-tag { font-family: var(--mono); font-size: 9px; font-weight: 500; margin-bottom: 4px; display: block; letter-spacing: 0.5px; }
+  .alert-item.warning .alert-tag{color:var(--amber)} .alert-item.tip .alert-tag{color:var(--green)} .alert-item.info .alert-tag{color:var(--blue3)}
+
+  .chat-panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: var(--navy); }
+  .chat-messages { flex: 1; overflow-y: auto; padding: 28px 32px; display: flex; flex-direction: column; gap: 22px; scroll-behavior: smooth; }
+  .chat-messages::-webkit-scrollbar { width: 3px; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  .msg { display: flex; gap: 12px; max-width: 760px; }
+  .msg.user { flex-direction: row-reverse; margin-left: auto; }
+  .msg-avatar { width: 30px; height: 30px; min-width: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; font-family: var(--mono); }
+  .msg.assistant .msg-avatar { background: var(--blue); color: white; font-size: 10px; letter-spacing: -0.5px; }
+  .msg.user .msg-avatar { background: var(--navy4); border: 1px solid var(--border2); font-size: 13px; font-family: var(--sans); }
+  .msg-bubble { padding: 13px 16px; border-radius: 12px; font-size: 14px; line-height: 1.7; max-width: calc(100% - 42px); }
+  .msg.assistant .msg-bubble { background: var(--navy2); border: 1px solid var(--border); border-top-left-radius: 3px; }
+  .msg.user .msg-bubble { background: var(--blue); color: white; font-weight: 500; border-top-right-radius: 3px; }
+  .msg-bubble strong { font-weight: 700; }
+  .highlight { font-family: var(--mono); font-size: 12px; border-radius: 6px; padding: 9px 13px; margin: 10px 0; display: block; line-height: 1.6; }
+  .hl-amber { border: 1px solid rgba(240,180,41,0.25); background: var(--amber-faint); color: var(--amber); }
+  .hl-green { border: 1px solid rgba(5,177,105,0.25); background: var(--green-faint); color: var(--green); }
+  .hl-red { border: 1px solid rgba(223,95,103,0.25); background: rgba(223,95,103,0.07); color: var(--red); }
+  .hl-blue { border: 1px solid rgba(22,82,240,0.25); background: var(--blue-faint); color: var(--blue3); }
+
+  .typing-indicator { display: flex; gap: 5px; align-items: center; padding: 13px 16px; background: var(--navy2); border: 1px solid var(--border); border-radius: 12px; border-top-left-radius: 3px; width: fit-content; }
+  .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--white4); animation: typing 1.2s infinite; }
+  .typing-dot:nth-child(2){animation-delay:0.2s} .typing-dot:nth-child(3){animation-delay:0.4s}
+  @keyframes typing { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+
+  .chat-input-bar { padding: 14px 24px; border-top: 1px solid var(--border); background: var(--navy2); display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
+  .input-row { display: flex; gap: 10px; align-items: flex-end; }
+  .chat-textarea { flex: 1; background: var(--navy); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; color: var(--white); font-family: var(--sans); font-size: 14px; resize: none; outline: none; min-height: 46px; max-height: 120px; transition: border-color 0.2s; line-height: 1.5; }
+  .chat-textarea:focus { border-color: rgba(22,82,240,0.4); }
+  .chat-textarea::placeholder { color: var(--white4); }
+  .send-btn { width: 44px; height: 44px; background: var(--blue); border: none; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; box-shadow: 0 2px 8px var(--blue-glow); }
+  .send-btn:hover { background: var(--blue2); transform: scale(1.05); }
+  .send-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+  .send-btn svg { width: 17px; height: 17px; fill: white; }
+  .input-hint { font-family: var(--mono); font-size: 10px; color: var(--white4); text-align: center; letter-spacing: 0.3px; }
+  .disclaimer { font-family: var(--mono); font-size: 10px; color: var(--white4); padding: 8px 20px; border-top: 1px solid var(--border); text-align: center; background: var(--navy2); flex-shrink: 0; position: relative; z-index: 1; }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="txcrypto-landing.html" class="logo">
+    <div class="logo-icon">Tx</div>
+    TxCrypto
+    <span class="logo-sub">/ Interactive Demo</span>
+  </a>
+  <div class="header-right">
+    <div class="demo-badge">⚡ LIVE DEMO</div>
+    <div class="status-pill"><div class="status-dot"></div>Tax year 2024–25</div>
+  </div>
+</header>
+
+<div class="main">
+  <div class="left-panel">
+    <div class="panel-section">
+      <div class="panel-label">Choose a portfolio</div>
+      <div class="portfolio-tabs">
+        <div class="p-tab active" id="tab-active" onclick="loadPortfolio('active')">
+          <div class="pt-left"><div class="pt-name">Active trader</div><div class="pt-desc">BTC, ETH, SOL · 10 trades</div></div>
+          <div class="pt-badge">LOADED</div>
+        </div>
+        <div class="p-tab" id="tab-defi" onclick="loadPortfolio('defi')">
+          <div class="pt-left"><div class="pt-name">DeFi investor</div><div class="pt-desc">Staking, LP, airdrops</div></div>
+          <div class="pt-badge">DEMO</div>
+        </div>
+        <div class="p-tab" id="tab-hodl" onclick="loadPortfolio('hodl')">
+          <div class="pt-left"><div class="pt-name">Long-term holder</div><div class="pt-desc">BTC only · First sale</div></div>
+          <div class="pt-badge">DEMO</div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-section"><div class="panel-label">Tax summary · 2024–25</div><div class="summary-grid" id="summary-grid"></div></div>
+    <div class="panel-section"><div class="panel-label">Recent transactions</div><div class="tx-list" id="tx-list"></div></div>
+    <div class="panel-section"><div class="panel-label">Proactive alerts</div><div class="alert-list" id="alert-list"></div></div>
+  </div>
+
+  <div class="chat-panel">
+    <div class="chat-messages" id="chat-messages"></div>
+    <div class="chat-input-bar">
+      <div class="input-row">
+        <textarea class="chat-textarea" id="chat-input" placeholder="Ask about your crypto taxes..." rows="1"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"
+          oninput="autoResize(this)"></textarea>
+        <button class="send-btn" id="send-btn" onclick="sendMessage()">
+          <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+      <div class="input-hint">Enter to send · Switch portfolio on the left · No API key needed — this is a demo</div>
+    </div>
+  </div>
+</div>
+
+<div class="disclaimer">Demo mode — responses are pre-built to show how TxCrypto works · Not financial or tax advice</div>
+
+<script>
+const PORTFOLIOS = {
+  active: {
+    summary: { netGain: 10957, estimatedTax: 1989, taxableGain: 7957, unrealisedPnl: 14200, openPositions: 4 },
+    transactions: [
+      { date: '2025-02-18', type: 'SELL', asset: 'ETH',  qty: 2.0,  price: 2650,  gain: -300  },
+      { date: '2025-01-09', type: 'BUY',  asset: 'ETH',  qty: 2.0,  price: 3200,  gain: null  },
+      { date: '2024-12-14', type: 'SELL', asset: 'BTC',  qty: 0.25, price: 94000, gain: 8782  },
+      { date: '2024-11-08', type: 'SELL', asset: 'SOL',  qty: 30,   price: 198,   gain: 1680  },
+      { date: '2024-10-22', type: 'BUY',  asset: 'BTC',  qty: 0.15, price: 61200, gain: null  },
+    ],
+    alerts: [
+      { type: 'warning', tag: 'CGT DEADLINE', text: 'April 5th is 18 days away. You have £3,200 in unrealised ETH losses — selling before year-end could save you ~£800.' },
+      { type: 'tip',     tag: 'LOSS HARVEST', text: 'Your SOL position is down £1,100 from cost basis. Selling and rebuying after 30 days could offset future gains.' },
+      { type: 'info',    tag: 'ALLOWANCE',    text: "You've used £7,957 of your gains against the £3,000 CGT allowance. You'll pay 18% on the £4,957 excess." },
+    ],
+    greeting: `Portfolio loaded for **2024–25**.\n\n<span class="highlight hl-amber">⚠ Estimated CGT bill: £1,989 — based on £7,957 taxable gains after your £3,000 annual allowance</span>\n\nNet realised gain is **£10,957** across BTC, ETH and SOL. Open positions carry an unrealised gain of **£14,200**.\n\n⚡ April 5th is approaching and you're sitting on harvestable losses. Try asking: "What should I sell before April 5th?"`,
+    responses: [
+      { match: ['cgt','owe','bill','much','total','tax'], reply: `Your **2024–25 CGT breakdown**:\n\nGains: £11,782 | Losses: £825 | Net: £10,957\nLess allowance: −£3,000 | Taxable: £7,957\n\n<span class="highlight hl-amber">Estimated tax: £1,989 at 18% basic rate — or £1,909 if you're a higher rate taxpayer (gains taxed at 24% above £50,270 total income)</span>\n\nYour biggest gain was the December BTC sale — **£8,782** on 0.25 BTC sold at £94,000.` },
+      { match: ['sell','harvest','loss','reduce','april','save'], reply: `Your best opportunities before **April 5th**:\n\n**1. ETH position**\nHolding 4.5 ETH at average cost £2,711. At current £2,650 price, that's a £274 unrealised loss. Selling crystallises it.\n\n**2. SOL remaining (best option)**\n50 SOL remaining with cost basis £7,100. At ~£128 current price — **£1,500 unrealised loss**.\n\n<span class="highlight hl-green">⚡ Selling both reduces your taxable gain from £7,957 to £6,183 — saving ~£319 in tax</span>\n\n⚠ Remember: don't rebuy within 30 days or HMRC disallows the loss (30-day bed-and-breakfast rule).` },
+      { match: ['30','bed','breakfast','rule'], reply: `The **30-day rule** prevents simple "sell and rebuy" to crystallise losses.\n\nIf you sell crypto and rebuy the **same asset within 30 days**, HMRC matches the sale against the new purchase — not your Section 104 pool. The loss is effectively disallowed.\n\n<span class="highlight hl-amber">⚠ Example: Sell 1 ETH at a £500 loss today, rebuy tomorrow — the £500 loss is disallowed. HMRC treats it as matched against your new purchase.</span>\n\n**To properly harvest losses:**\n• Sell, then wait 31+ days before rebuying\n• Or immediately buy a *different* asset (e.g. ETH → stETH)\n\nNone of your disposals triggered the 30-day rule this year.` },
+      { match: ['section 104','pool','cost basis','average'], reply: `**Section 104 pooling** is how HMRC requires UK traders to calculate crypto cost basis.\n\nAll purchases of the same asset go into one "pool". The pool tracks total quantity and total cost. When you sell, your gain uses the **average pool cost** — not FIFO.\n\n<span class="highlight hl-blue">Your BTC pool:\n• 0.5 BTC @ £48,200 + 0.15 BTC @ £61,200\n• Pool: 0.65 BTC, total cost £33,280\n• Average: £51,200/BTC\n• Sold 0.25 BTC @ £94,000 → gain: £94,000 − (0.25×£51,200) = £23,500 − £12,800 = £10,700... adjusted for multiple sales</span>\n\nEvery buy and sell recalculates the pool. This is why accurate records matter.` },
+      { match: ['btc','bitcoin'], reply: `Your **BTC position 2024–25**:\n\nPool entries: 0.5 BTC @ £48,200 + 0.15 BTC @ £61,200\nAverage pool cost: ~£51,200/BTC\n\nDisposals: July (0.2 BTC @ £54,800 → **+£720 gain**) + December (0.25 BTC @ £94,000 → **+£10,700 gain** — largest single trade this year)\n\n<span class="highlight hl-green">Total BTC gains: £11,420</span>\n\nYou hold 0.2 BTC remaining with average cost ~£51,200. At £84,000+ current price, significant unrealised gain — be mindful of CGT if you sell this year.` },
+      { match: ['eth','ethereum'], reply: `Your **ETH position 2024–25**:\n\nBought: 4.0 ETH @ £2,800 (Jun 2024) + 2.0 ETH @ £3,200 (Jan 2025)\nPool average cost: £2,933/ETH\n\nSold: 1.5 ETH @ £2,450 (Sep 2024) + 2.0 ETH @ £2,650 (Feb 2025)\n\n<span class="highlight hl-red">Realised ETH loss this year: −£825 (automatically offsetting your gains)</span>\n\nCurrently holding 4.5 ETH at pool cost ~£2,711. At £2,650 today you're slightly underwater — a loss-harvesting opportunity before April 5th.` },
+    ]
+  },
+  defi: {
+    summary: { netGain: 6420, estimatedTax: 619, taxableGain: 3420, unrealisedPnl: 8900, openPositions: 6 },
+    transactions: [
+      { date: '2025-03-01', type: 'REWARD', asset: 'ETH staking', qty: 0.18, price: 2850, gain: null },
+      { date: '2025-02-10', type: 'SELL',   asset: 'UNI-LP',      qty: 1200, price: 1.42, gain: 840  },
+      { date: '2025-01-22', type: 'AIRDROP',asset: 'ARB',         qty: 3200, price: 0.95, gain: null },
+      { date: '2024-12-05', type: 'SELL',   asset: 'AAVE',        qty: 12,   price: 285,  gain: 2140 },
+      { date: '2024-11-18', type: 'REWARD', asset: 'ETH staking', qty: 0.14, price: 2600, gain: null },
+    ],
+    alerts: [
+      { type: 'warning', tag: 'STAKING INCOME', text: 'Your ETH staking rewards (~£877 total) are taxable as income, not CGT. They must go on your SA100.' },
+      { type: 'warning', tag: 'AIRDROP TAX',    text: 'Your ARB airdrop (£3,040 at receipt) is likely taxable as income at the point you received it.' },
+      { type: 'tip',     tag: 'LP LOSSES',      text: 'Your Uniswap LP positions have impermanent loss of ~£640 which may be claimable — ask me how.' },
+    ],
+    greeting: `DeFi portfolio loaded. Your tax situation is **more complex than a typical trader**:\n\n<span class="highlight hl-amber">⚠ Two separate tax events: £3,420 in capital gains AND ~£912 in staking income (taxed differently)</span>\n\nYour **staking rewards and the ARB airdrop** are likely income — taxed at your income rate, not CGT rates. Ask me "how is my staking income taxed?" to understand the distinction.`,
+    responses: [
+      { match: ['staking','rewards','income'], reply: `Your **ETH staking rewards** are taxed as **income** — not capital gains. Key distinction.\n\nYour rewards this year: 0.18 ETH (Mar 2025, ~£513) + 0.14 ETH (Nov 2024, ~£364) = **~£877 total income**\n\n<span class="highlight hl-amber">⚠ This £877 goes on your SA100 as miscellaneous income, taxed at your income rate (20% basic / 40% higher) — NOT CGT rates</span>\n\n**Double taxation note:** When you later *sell* those staking rewards, you also pay CGT on any gain from receipt value to sale value. The receipt value becomes your cost basis.\n\nAsk me "how do I report staking on Self Assessment?" for the exact form guidance.` },
+      { match: ['airdrop','arb','arbitrum'], reply: `Your **ARB airdrop** — HMRC's position here is nuanced.\n\nAirdrops received for nothing (no service, no work) may be exempt. But airdrops from DeFi protocol usage are typically taxable as income.\n\n<span class="highlight hl-amber">⚠ Your 3,200 ARB received at £0.95 = £3,040 — likely taxable as miscellaneous income since it was from using the Arbitrum bridge</span>\n\n**Practical steps:**\n• Document that you received it for bridge usage\n• Report £3,040 as income in 2024-25\n• Your ARB cost basis for future CGT = £0.95/token\n\nThis area of HMRC guidance is evolving — for £3k+ I'd recommend professional advice.` },
+      { match: ['lp','liquidity','uniswap','impermanent'], reply: `**Liquidity Pool positions** — complex area with limited HMRC guidance.\n\n**HMRC's current view:** Adding liquidity = disposing of tokens into the pool. Removing liquidity = acquiring tokens back. Price changes = capital gain or loss.\n\n<span class="highlight hl-blue">Your UNI-LP disposal generated £840 gain — straightforward CGT</span>\n\n**Impermanent loss:** Your £640 IL is a real economic loss. HMRC doesn't have a clean mechanism to claim it separately — it should be reflected in your actual gain/loss calculation when you exit.\n\nGiven the complexity here, I'd recommend an accountant review your DeFi positions specifically.` },
+      { match: ['owe','bill','total','much'], reply: `Your 2024–25 position has **two separate tax liabilities**:\n\n**Capital Gains Tax:**\nGains £6,420 | Less £3,000 allowance | Taxable £3,420\n<span class="highlight hl-amber">Estimated CGT: ~£615 at 18%</span>\n\n**Income Tax (staking + airdrop):**\nStaking: £877 | ARB airdrop: £3,040 | Total: £3,917\n<span class="highlight hl-amber">Estimated income tax: ~£783 at 20% basic rate</span>\n\n**Combined estimated liability: ~£1,398**\n\nCGT goes on **SA108**, income goes on **SA100** — two different supplementary pages of your Self Assessment return.` },
+    ]
+  },
+  hodl: {
+    summary: { netGain: 34850, estimatedTax: 7764, taxableGain: 31850, unrealisedPnl: 0, openPositions: 0 },
+    transactions: [
+      { date: '2025-01-15', type: 'SELL', asset: 'BTC', qty: 0.5,  price: 96000, gain: 34850 },
+      { date: '2021-03-10', type: 'BUY',  asset: 'BTC', qty: 0.5,  price: 42000, gain: null  },
+      { date: '2020-11-04', type: 'BUY',  asset: 'BTC', qty: 0.25, price: 12800, gain: null  },
+      { date: '2020-06-15', type: 'BUY',  asset: 'BTC', qty: 0.25, price: 8400,  gain: null  },
+    ],
+    alerts: [
+      { type: 'warning', tag: 'LARGE GAIN',  text: 'Your £34,850 gain is well above the £3,000 allowance. £31,850 is taxable — see estimated bill.' },
+      { type: 'info',    tag: 'SECTION 104', text: 'Your BTC was pooled across 3 purchases. Average cost basis used: £26,300 per coin.' },
+      { type: 'tip',     tag: 'DUE DATE',    text: 'CGT from 2024-25 is due via Self Assessment by 31 January 2026. Set funds aside now.' },
+    ],
+    greeting: `Portfolio loaded. You have **one significant disposal** this tax year:\n\n<span class="highlight hl-red">⚠ Estimated CGT bill: £7,764 — based on £31,850 taxable gain (£34,850 minus £3,000 allowance, at 24% higher rate)</span>\n\nYour cost basis was calculated using **Section 104 pooling** — averaging your three BTC purchases at £26,300/coin.\n\nAsk me "is there anything I can do to reduce this bill?" — there may still be options before April 5th.`,
+    responses: [
+      { match: ['reduce','lower','minimise','options','anything','save'], reply: `With a £31,850 taxable gain, your options before April 5th are limited but real:\n\n**1. Spouse/partner transfer**\nTransferring assets to a partner before disposal can be done at no gain/no loss. If they have unused CGT allowance or pay a lower rate, this saves real money.\n\n**2. Pension contributions**\nAdditional pension contributions extend your basic rate band. Reducing the applicable rate from 24% to 18% on £31,850 would save £1,911.\n\n**3. Charitable donation**\nDonating crypto directly to a registered charity is CGT-exempt.\n\n<span class="highlight hl-green">⚡ If your partner has unused CGT allowance, a pre-April transfer could save up to £720 (their £3,000 × 24%)</span>\n\nFor a £7,764 bill I'd seriously consider an hour with a crypto-specialist accountant — the fee will likely pay for itself.` },
+      { match: ['section 104','cost basis','calculated','pool','average'], reply: `Your BTC cost basis was calculated using the **Section 104 pool method**:\n\n**Three purchases pooled:**\n• Jun 2020: 0.25 BTC @ £8,400 = £2,100\n• Nov 2020: 0.25 BTC @ £12,800 = £3,200\n• Mar 2021: 0.5 BTC @ £42,000 = £21,000\n\n**Pool total:** 1.0 BTC, cost £26,300 | **Average: £26,300/BTC**\n\n**January 2025 disposal:**\n0.5 BTC sold @ £96,000 = £48,000 proceeds\nCost: 0.5 × £26,300 = £13,150\n\n<span class="highlight hl-green">Gain: £48,000 − £13,150 = £34,850</span>\n\nAfter £3,000 allowance: £31,850 taxable.` },
+      { match: ['pay','when','deadline','self assessment','january'], reply: `Key dates for your **2024–25 CGT liability**:\n\n**Self Assessment deadline: 31 January 2026**\nFile SA100 + SA108 (capital gains supplement) and pay by this date.\n\n**Payment on Account warning:**\nIf this is your first year filing, HMRC may also demand a 50% advance payment for 2025-26 — due at the same time.\n\n<span class="highlight hl-amber">⚠ Set aside your £7,764 now. If HMRC requests payment on account, total due by Jan 31 2026 could be ~£11,646</span>\n\n**Steps to report:**\n1. Register for Self Assessment at gov.uk\n2. Complete SA100 + SA108 capital gains pages\n3. List your disposal: Jan 15 2025, 0.5 BTC, proceeds £48,000, cost £13,150, gain £34,850` },
+      { match: ['owe','bill','total','much','cgt'], reply: `Your 2024–25 CGT calculation:\n\n**Gross gain:** £34,850\n**Less annual allowance:** −£3,000\n**Taxable gain:** £31,850\n\n<span class="highlight hl-red">⚠ Estimated tax: £7,644 at 24% higher rate — or £5,733 at 18% basic rate</span>\n\n**Which rate applies?** If your salary + gains exceed £50,270, the excess is taxed at 24%. Example: £35,000 salary means £15,270 of your gain at 18% (£2,749) + £16,580 at 24% (£3,979) = £6,728 total. Your exact figure depends on your other income.\n\nAsk me "how do the two CGT rates work?" for a full explanation.` },
+    ]
+  }
+};
+
+let currentPortfolio = 'active';
+let busy = false;
+
+window.addEventListener('DOMContentLoaded', () => loadPortfolio('active'));
+
+function loadPortfolio(key) {
+  currentPortfolio = key;
+  const p = PORTFOLIOS[key];
+  document.querySelectorAll('.p-tab').forEach(t => { t.classList.remove('active'); t.querySelector('.pt-badge').textContent = 'DEMO'; });
+  document.getElementById(`tab-${key}`).classList.add('active');
+  document.querySelector(`#tab-${key} .pt-badge`).textContent = 'LOADED';
+
+  const s = p.summary;
+  document.getElementById('summary-grid').innerHTML = `
+    <div class="summary-card"><div class="s-label">NET GAIN</div><div class="s-value sv-blue">£${s.netGain.toLocaleString()}</div><div class="s-sub">realised this year</div></div>
+    <div class="summary-card"><div class="s-label">EST. TAX</div><div class="s-value sv-red">£${s.estimatedTax.toLocaleString()}</div><div class="s-sub">at 18–24% rate</div></div>
+    <div class="summary-card"><div class="s-label">TAXABLE GAIN</div><div class="s-value sv-amber">£${s.taxableGain.toLocaleString()}</div><div class="s-sub">after £3k allowance</div></div>
+    <div class="summary-card"><div class="s-label">${s.openPositions>0?'UNREALISED':'POSITIONS'}</div><div class="s-value sv-green">${s.openPositions>0?'+£'+s.unrealisedPnl.toLocaleString():'CLOSED'}</div><div class="s-sub">${s.openPositions>0?s.openPositions+' open':'all disposed'}</div></div>`;
+
+  document.getElementById('tx-list').innerHTML = p.transactions.map(tx => {
+    const isSell = tx.type === 'SELL';
+    const gc = !isSell ? 'tx-neutral' : (tx.gain >= 0 ? 'tx-gain' : 'tx-loss');
+    const gt = !isSell ? '—' : (tx.gain >= 0 ? `+£${tx.gain.toLocaleString()}` : `-£${Math.abs(tx.gain).toLocaleString()}`);
+    return `<div class="tx-item"><div class="tx-left"><div class="tx-date">${tx.date} · ${tx.type}</div><div>${tx.qty} ${tx.asset}</div></div><div class="tx-right"><div class="${gc}">${gt}</div><div class="tx-price">@ £${tx.price.toLocaleString()}</div></div></div>`;
+  }).join('');
+
+  document.getElementById('alert-list').innerHTML = p.alerts.map(a =>
+    `<div class="alert-item ${a.type}"><span class="alert-tag">${a.tag}</span>${a.text}</div>`
+  ).join('');
+
+  document.getElementById('chat-messages').innerHTML = '';
+  setTimeout(() => addMsg('assistant', p.greeting), 200);
+}
+
+function sendMessage() {
+  if (busy) return;
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  addMsg('user', text);
+  input.value = ''; input.style.height = 'auto';
+  document.getElementById('send-btn').disabled = true;
+  busy = true;
+  const tid = showTyping();
+  setTimeout(() => {
+    removeTyping(tid);
+    addMsg('assistant', getReply(text));
+    document.getElementById('send-btn').disabled = false;
+    busy = false;
+  }, 700 + Math.random() * 700);
+}
+
+function getReply(text) {
+  const lower = text.toLowerCase();
+  const responses = PORTFOLIOS[currentPortfolio].responses;
+  for (const r of responses) {
+    if (r.match.some(k => lower.includes(k))) return r.reply;
+  }
+  const fallbacks = [
+    `Great question. In the full TxCrypto product, I'd analyse your exact transaction history to give a precise answer.\n\n<span class="highlight hl-blue">All UK crypto disposals are subject to CGT. HMRC requires Section 104 pooling, with same-day and 30-day matching rules taking priority.</span>\n\nTry asking something more specific — like "how much CGT do I owe?" or "what should I sell before April 5th?"`,
+    `That's exactly what TxCrypto is built for.\n\n<span class="highlight hl-green">⚡ In the live product, I'd give you a precise numerical answer with full workings based on your actual data.</span>\n\nFor this demo, try:\n• "How much CGT do I owe?"\n• "Explain the 30-day rule"\n• "Which positions should I sell?"`,
+  ];
+  return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+}
+
+function addMsg(role, text) {
+  const c = document.getElementById('chat-messages');
+  const d = document.createElement('div');
+  d.className = `msg ${role}`;
+  d.innerHTML = `<div class="msg-avatar">${role==='assistant'?'Tx':'👤'}</div><div class="msg-bubble">${fmt(text)}</div>`;
+  c.appendChild(d); c.scrollTop = c.scrollHeight;
+}
+
+function fmt(t) {
+  return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/<span class="highlight (hl-\w+)">([\s\S]*?)<\/span>/g,'<span class="highlight $1">$2</span>')
+    .replace(/\n/g,'<br>');
+}
+
+let tc = 0;
+function showTyping() {
+  const id=`t${++tc}`, c=document.getElementById('chat-messages'), d=document.createElement('div');
+  d.className='msg assistant'; d.id=id;
+  d.innerHTML=`<div class="msg-avatar">Tx</div><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+  c.appendChild(d); c.scrollTop=c.scrollHeight; return id;
+}
+function removeTyping(id) { document.getElementById(id)?.remove(); }
+function autoResize(el) { el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,120)+'px'; }
+</script>
+</body>
+</html>

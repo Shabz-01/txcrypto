@@ -30,16 +30,16 @@
 
   .main{display:flex;flex:1;overflow:hidden;height:calc(100vh - 58px);position:relative;z-index:1}
 
-  .left-panel{width:310px;min-width:310px;border-right:1px solid var(--border);display:flex;flex-direction:column;background:var(--navy2);overflow-y:auto}
+  .left-panel{width:320px;min-width:320px;border-right:1px solid var(--border);display:flex;flex-direction:column;background:var(--navy2);overflow-y:auto}
   .left-panel::-webkit-scrollbar{width:3px}
   .left-panel::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
   .panel-section{padding:18px;border-bottom:1px solid var(--border)}
   .panel-label{font-family:var(--mono);font-size:9px;color:var(--white4);letter-spacing:2px;text-transform:uppercase;margin-bottom:13px}
 
-  .upload-zone{border:1px dashed var(--border2);border-radius:10px;padding:22px 18px;text-align:center;cursor:pointer;transition:all 0.2s;background:var(--navy)}
+  .upload-zone{border:1px dashed var(--border2);border-radius:10px;padding:18px;text-align:center;cursor:pointer;transition:all 0.2s;background:var(--navy)}
   .upload-zone:hover,.upload-zone.drag-over{border-color:var(--blue);background:var(--blue-faint)}
-  .upload-icon{width:38px;height:38px;margin:0 auto 10px;background:var(--navy3);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px}
-  .upload-title{font-size:13px;font-weight:600;margin-bottom:4px}
+  .upload-icon{width:34px;height:34px;margin:0 auto 8px;background:var(--navy3);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px}
+  .upload-title{font-size:13px;font-weight:600;margin-bottom:3px}
   .upload-sub{font-size:11px;color:var(--white3);font-family:var(--mono)}
   #file-input{display:none}
 
@@ -47,17 +47,33 @@
   .fmt-badge{font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:5px;border:1px solid var(--border2);color:var(--white4)}
   .fmt-badge.ok{border-color:rgba(5,177,105,0.3);background:rgba(5,177,105,0.06);color:var(--green)}
 
-  .ex-list{display:flex;flex-direction:column;gap:2px;max-height:260px;overflow-y:auto;padding-right:2px}
+  /* Uploaded files list */
+  .files-list{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+  .file-item{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--navy);border:1px solid var(--border);border-radius:8px;font-family:var(--mono);font-size:11px}
+  .file-item.ok{border-color:rgba(5,177,105,0.3)}
+  .file-item.err{border-color:rgba(223,95,103,0.3)}
+  .fi-icon{font-size:13px;flex-shrink:0}
+  .fi-info{flex:1;min-width:0}
+  .fi-name{color:var(--white2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px}
+  .fi-meta{color:var(--white4);font-size:9px;margin-top:2px}
+  .fi-remove{background:none;border:none;color:var(--white4);cursor:pointer;font-size:14px;padding:0 2px;flex-shrink:0;line-height:1}
+  .fi-remove:hover{color:var(--red)}
+
+  .btn-analyse{width:100%;margin-top:10px;padding:10px;background:var(--blue);border:none;border-radius:8px;color:white;font-family:var(--mono);font-size:11px;font-weight:600;cursor:pointer;transition:all 0.2s;letter-spacing:0.5px}
+  .btn-analyse:hover{background:var(--blue2)}
+  .btn-analyse:disabled{opacity:0.4;cursor:not-allowed}
+
+  .ex-list{display:flex;flex-direction:column;gap:2px;max-height:240px;overflow-y:auto;padding-right:2px}
   .ex-list::-webkit-scrollbar{width:3px}
   .ex-list::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
-  .ex-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:7px;font-size:13px;font-weight:500;color:var(--white2);cursor:pointer;transition:all 0.15s;border:1px solid transparent}
+  .ex-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;font-size:12px;font-weight:500;color:var(--white2);cursor:pointer;transition:all 0.15s;border:1px solid transparent}
   .ex-item:hover{background:var(--navy);border-color:var(--border);color:var(--white)}
   .ex-item.active{background:var(--blue-faint);border-color:rgba(22,82,240,0.3);color:var(--white)}
   .ex-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);flex-shrink:0;transition:background 0.15s}
   .ex-item.active .ex-dot{background:var(--blue3)}
   .ex-item:hover .ex-dot{background:var(--white3)}
 
-  .parse-bar{margin-top:10px;padding:10px 12px;border-radius:8px;font-family:var(--mono);font-size:11px;line-height:1.5;display:none}
+  .parse-bar{margin-top:8px;padding:9px 12px;border-radius:8px;font-family:var(--mono);font-size:11px;line-height:1.5;display:none}
   .parse-bar.loading{background:var(--blue-faint);border:1px solid rgba(22,82,240,0.2);color:var(--blue3)}
   .parse-bar.ok{background:var(--green-faint);border:1px solid rgba(5,177,105,0.2);color:var(--green)}
   .parse-bar.err{background:rgba(223,95,103,0.08);border:1px solid rgba(223,95,103,0.2);color:var(--red)}
@@ -66,6 +82,8 @@
 
   .btn-sample{width:100%;margin-top:9px;padding:9px;background:transparent;border:1px solid var(--border2);border-radius:8px;color:var(--white3);font-family:var(--mono);font-size:11px;cursor:pointer;transition:all 0.2s}
   .btn-sample:hover{border-color:var(--blue3);color:var(--blue3);background:var(--blue-faint)}
+  .btn-clear{width:100%;margin-top:6px;padding:8px;background:transparent;border:1px solid rgba(223,95,103,0.3);border-radius:8px;color:var(--red);font-family:var(--mono);font-size:10px;cursor:pointer;transition:all 0.2s}
+  .btn-clear:hover{background:rgba(223,95,103,0.08)}
 
   .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
   .sc{background:var(--navy);border:1px solid var(--border);border-radius:9px;padding:12px 11px}
@@ -127,7 +145,6 @@
   @keyframes typing{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
 
   .cib{padding:14px 24px;border-top:1px solid var(--border);background:var(--navy2);display:flex;flex-direction:column;gap:10px;flex-shrink:0}
-
   .ir{display:flex;gap:10px;align-items:flex-end}
   .cta{flex:1;background:var(--navy);border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--white);font-family:var(--sans);font-size:14px;resize:none;outline:none;min-height:46px;max-height:120px;transition:border-color 0.2s;line-height:1.5}
   .cta:focus{border-color:rgba(22,82,240,0.4)}
@@ -138,11 +155,10 @@
   .sb svg{width:17px;height:17px;fill:white}
   .ih{font-family:var(--mono);font-size:10px;color:var(--white4);text-align:center;letter-spacing:0.3px}
   .disc{font-family:var(--mono);font-size:10px;color:var(--white4);padding:8px 20px;border-top:1px solid var(--border);text-align:center;background:var(--navy2);flex-shrink:0;position:relative;z-index:1}
-  .import-guide{margin-top:12px;padding:12px;background:var(--navy);border:1px solid var(--border);border-radius:9px;font-family:var(--mono);font-size:10px;color:var(--white3);line-height:1.7}
+  .import-guide{margin-top:10px;padding:10px 12px;background:var(--navy);border:1px solid var(--border);border-radius:9px;font-family:var(--mono);font-size:10px;color:var(--white3);line-height:1.7}
   .import-guide .ig-title{color:var(--blue3);font-size:10px;font-weight:500;margin-bottom:6px;letter-spacing:0.5px}
   .import-guide .ig-step{display:flex;gap:6px;margin-bottom:3px}
   .import-guide .ig-num{color:var(--blue3);flex-shrink:0}
-  .import-guide a{color:var(--blue3);text-decoration:none}
 </style>
 </head>
 <body>
@@ -165,38 +181,39 @@
       <div class="panel-label">Import transactions</div>
       <div class="upload-zone" id="uz" onclick="document.getElementById('fi').click()">
         <div class="upload-icon">📂</div>
-        <div class="upload-title">Drop your file here</div>
-        <div class="upload-sub">Click to browse or drag &amp; drop</div>
-        <div class="format-badges" style="margin-top:8px;justify-content:center">
+        <div class="upload-title">Drop your files here</div>
+        <div class="upload-sub">Upload from multiple exchanges</div>
+        <div class="format-badges" style="margin-top:8px">
           <span class="fmt-badge ok">XLS</span>
           <span class="fmt-badge ok">XLSX</span>
           <span class="fmt-badge ok">CSV</span>
           <span class="fmt-badge ok">PDF</span>
         </div>
       </div>
-      <input type="file" id="fi" accept=".csv,.xls,.xlsx,.pdf" onchange="handleUpload(event)">
+      <input type="file" id="fi" accept=".csv,.xls,.xlsx,.pdf" multiple onchange="handleUpload(event)">
+      <div class="files-list" id="fl"></div>
       <div class="parse-bar" id="pb"></div>
+      <button class="btn-analyse" id="ba" onclick="analyseAll()" disabled>⚡ Calculate tax across all files</button>
+      <button class="btn-sample" onclick="loadDemo()">Load sample portfolio (demo)</button>
+      <button class="btn-clear" id="bc" onclick="clearAll()" style="display:none">✕ Clear all files</button>
+    </div>
 
-      <div class="import-guide" id="ig" style="display:none"></div>
-
-      <div style="margin-top:14px">
-        <div class="panel-label" style="margin-bottom:10px">Supported exchanges</div>
-        <div class="ex-list">
-          <div class="ex-item active" id="eb-etoro"    onclick="setEx('etoro')"><span class="ex-dot"></span>eToro</div>
-          <div class="ex-item" id="eb-coinbase" onclick="setEx('coinbase')"><span class="ex-dot"></span>Coinbase</div>
-          <div class="ex-item" id="eb-kraken"   onclick="setEx('kraken')"><span class="ex-dot"></span>Kraken</div>
-          <div class="ex-item" id="eb-revolut"  onclick="setEx('revolut')"><span class="ex-dot"></span>Revolut</div>
-          <div class="ex-item" id="eb-gemini"   onclick="setEx('gemini')"><span class="ex-dot"></span>Gemini</div>
-          <div class="ex-item" id="eb-okx"      onclick="setEx('okx')"><span class="ex-dot"></span>OKX</div>
-          <div class="ex-item" id="eb-cryptocom"onclick="setEx('cryptocom')"><span class="ex-dot"></span>Crypto.com</div>
-          <div class="ex-item" id="eb-bitstamp" onclick="setEx('bitstamp')"><span class="ex-dot"></span>Bitstamp</div>
-          <div class="ex-item" id="eb-bitpanda" onclick="setEx('bitpanda')"><span class="ex-dot"></span>Bitpanda</div>
-          <div class="ex-item" id="eb-binance"  onclick="setEx('binance')"><span class="ex-dot"></span>Binance</div>
-          <div class="ex-item" id="eb-uphold"   onclick="setEx('uphold')"><span class="ex-dot"></span>Uphold</div>
-        </div>
+    <div class="panel-section">
+      <div class="panel-label" style="margin-bottom:10px">Supported exchanges</div>
+      <div class="ex-list">
+        <div class="ex-item" id="eb-etoro"    onclick="setEx('etoro')"><span class="ex-dot"></span>eToro</div>
+        <div class="ex-item" id="eb-coinbase" onclick="setEx('coinbase')"><span class="ex-dot"></span>Coinbase</div>
+        <div class="ex-item" id="eb-kraken"   onclick="setEx('kraken')"><span class="ex-dot"></span>Kraken</div>
+        <div class="ex-item" id="eb-revolut"  onclick="setEx('revolut')"><span class="ex-dot"></span>Revolut</div>
+        <div class="ex-item" id="eb-gemini"   onclick="setEx('gemini')"><span class="ex-dot"></span>Gemini</div>
+        <div class="ex-item" id="eb-okx"      onclick="setEx('okx')"><span class="ex-dot"></span>OKX</div>
+        <div class="ex-item" id="eb-cryptocom"onclick="setEx('cryptocom')"><span class="ex-dot"></span>Crypto.com</div>
+        <div class="ex-item" id="eb-bitstamp" onclick="setEx('bitstamp')"><span class="ex-dot"></span>Bitstamp</div>
+        <div class="ex-item" id="eb-bitpanda" onclick="setEx('bitpanda')"><span class="ex-dot"></span>Bitpanda</div>
+        <div class="ex-item" id="eb-binance"  onclick="setEx('binance')"><span class="ex-dot"></span>Binance</div>
+        <div class="ex-item" id="eb-uphold"   onclick="setEx('uphold')"><span class="ex-dot"></span>Uphold</div>
       </div>
-
-      <button class="btn-sample" onclick="loadDemo()">⚡ Load sample portfolio (demo)</button>
+      <div class="import-guide" id="ig" style="display:none"></div>
     </div>
 
     <div class="panel-section" id="ss" style="display:none">
@@ -221,7 +238,7 @@
       <div class="welcome" id="ws">
         <div class="welcome-icon">Tx</div>
         <h2>Your UK crypto tax, handled properly.</h2>
-        <p>Upload your eToro XLS, any exchange CSV, or a PDF statement — TxCrypto automatically recognises the format and maps your transactions to UK tax rules.</p>
+        <p>Upload files from all your exchanges at once — TxCrypto merges everything, pools your holdings correctly and calculates your CGT across all platforms.</p>
         <div class="sg">
           <div class="sug" onclick="askS(this)"><span class="si">📊</span>How much CGT do I owe this tax year?<span class="st">Get a full breakdown</span></div>
           <div class="sug" onclick="askS(this)"><span class="si">🌱</span>Which positions should I sell to harvest losses?<span class="st">Before April 5th</span></div>
@@ -246,7 +263,11 @@
 <div class="disc">For informational purposes only · Not financial or tax advice · Always consult a qualified accountant for HMRC submissions</div>
 
 <script>
-let PD=null, CH=[], SEX=null;
+// Global state
+let ALL_FILES = []; // array of {filename, exchange, transactions, status}
+let PD = null;
+let CH = [];
+let SEX = null;
 
 const MAPS={
   etoro:{
@@ -262,112 +283,63 @@ const MAPS={
   },
   coinbase:{
     detect:h=>h.some(x=>x.includes('transaction type')||x.includes('quantity transacted')),
-    date:['timestamp','date'],
-    type:['transaction type'],
-    asset:['asset','currency'],
-    qty:['quantity transacted','quantity'],
-    price:['spot price at transaction','price'],
-    proceeds:['subtotal','total (inclusive of fees and/or spread)','total'],
-    profit:[],
+    date:['timestamp','date'],type:['transaction type'],asset:['asset','currency'],
+    qty:['quantity transacted','quantity'],price:['spot price at transaction','price'],
+    proceeds:['subtotal','total (inclusive of fees and/or spread)','total'],profit:[],
     map:{'buy':'BUY','sell':'SELL','receive':'INCOME','send':null,'coinbase earn':'INCOME','convert':'SELL','learning reward':'INCOME','staking income':'INCOME','advanced trade buy':'BUY','advanced trade sell':'SELL'}
   },
   kraken:{
     detect:h=>h.some(x=>x==='txid'||x==='refid'||x==='aclass'),
-    date:['time','date'],
-    type:['type'],
-    asset:['asset','pair'],
-    qty:['vol','volume','amount'],
-    price:['price'],
-    proceeds:['cost','total'],
-    profit:[],
+    date:['time','date'],type:['type'],asset:['asset','pair'],qty:['vol','volume','amount'],
+    price:['price'],proceeds:['cost','total'],profit:[],
     map:{'buy':'BUY','sell':'SELL','deposit':null,'withdrawal':null,'staking':'INCOME','trade':null,'spend':'SELL','receive':'INCOME','transfer':null}
   },
   revolut:{
     detect:h=>h.some(x=>x==='completed date'||x==='description'||(x.includes('amount')&&h.some(y=>y.includes('currency')&&h.some(z=>z.includes('state'))))),
-    date:['completed date','started date','date'],
-    type:['type','description'],
-    asset:['description','symbol','currency'],
-    qty:['quantity','amount'],
-    price:['price','rate'],
-    proceeds:['total','amount','fiat amount'],
-    profit:[],
+    date:['completed date','started date','date'],type:['type','description'],asset:['description','symbol','currency'],
+    qty:['quantity','amount'],price:['price','rate'],proceeds:['total','amount','fiat amount'],profit:[],
     map:{'exchange':'BUY','bought':'BUY','sold':'SELL','sell':'SELL','buy':'BUY','crypto purchase':'BUY','crypto sale':'SELL','reward':'INCOME','staking':'INCOME'}
   },
   gemini:{
     detect:h=>h.some(x=>x==='symbol'&&h.some(y=>y.includes('specification')||y.includes('liquidity'))),
-    date:['date','time (utc)','time'],
-    type:['type'],
-    asset:['symbol','currency'],
-    qty:['quantity','amount'],
-    price:['price','rate'],
-    proceeds:['total (usd)','total','proceeds'],
-    profit:[],
+    date:['date','time (utc)','time'],type:['type'],asset:['symbol','currency'],
+    qty:['quantity','amount'],price:['price','rate'],proceeds:['total (usd)','total','proceeds'],profit:[],
     map:{'buy':'BUY','sell':'SELL','credit':'INCOME','debit':null,'transfer':null,'earn interest':'INCOME','staking income':'INCOME','administrative credit':'INCOME'}
   },
   okx:{
     detect:h=>h.some(x=>x==='instrument type'||x==='fill sz'||x==='fill px'||(x.includes('order id')&&h.some(y=>y.includes('fill')))),
-    date:['fill time','create time','date'],
-    type:['side','type','order type'],
-    asset:['instrument id','ccy','currency'],
-    qty:['fill sz','size','qty','amount'],
-    price:['fill px','avg px','price'],
-    proceeds:['fill notional value','notional usd','total'],
-    profit:['pnl','realized pnl'],
+    date:['fill time','create time','date'],type:['side','type','order type'],asset:['instrument id','ccy','currency'],
+    qty:['fill sz','size','qty','amount'],price:['fill px','avg px','price'],proceeds:['fill notional value','notional usd','total'],profit:['pnl','realized pnl'],
     map:{'buy':'BUY','sell':'SELL','deposit':null,'withdrawal':null,'staking':'INCOME'}
   },
   cryptocom:{
     detect:h=>h.some(x=>x==='transaction description'||x==='transaction kind'||(x.includes('native currency')&&h.some(y=>y.includes('transaction description')))),
-    date:['timestamp (utc)','date','timestamp'],
-    type:['transaction description','transaction kind','type'],
-    asset:['currency','coin','asset'],
-    qty:['amount','quantity','native amount'],
-    price:['native amount (in usd)','price','rate'],
-    proceeds:['to amount','native amount','total'],
-    profit:[],
+    date:['timestamp (utc)','date','timestamp'],type:['transaction description','transaction kind','type'],asset:['currency','coin','asset'],
+    qty:['amount','quantity','native amount'],price:['native amount (in usd)','price','rate'],proceeds:['to amount','native amount','total'],profit:[],
     map:{'crypto purchase':'BUY','crypto sell':'SELL','viban purchase':'BUY','dust conversion credited':'SELL','dust conversion debited':null,'crypto earn interest paid':'INCOME','referral card cashback':'INCOME','reimbursement':'INCOME','crypto deposit':null,'crypto withdrawal':null,'exchange to crypto':'BUY','exchange from crypto':'SELL','buy':'BUY','sell':'SELL'}
   },
   bitstamp:{
     detect:h=>h.some(x=>x==='order id'&&h.some(y=>y==='type'&&h.some(z=>z.includes('sub type')))),
-    date:['datetime','date','time'],
-    type:['type','sub type'],
-    asset:['market','pair','currency'],
-    qty:['amount','quantity'],
-    price:['rate','price'],
-    proceeds:['value','total','proceeds'],
-    profit:[],
+    date:['datetime','date','time'],type:['type','sub type'],asset:['market','pair','currency'],
+    qty:['amount','quantity'],price:['rate','price'],proceeds:['value','total','proceeds'],profit:[],
     map:{'market':'BUY','limit':'BUY','buy':'BUY','sell':'SELL','deposit':null,'withdrawal':null,'staking reward':'INCOME','interest':'INCOME'}
   },
   bitpanda:{
     detect:h=>h.some(x=>x==='transaction id'&&h.some(y=>y.includes('asset')&&h.some(z=>z.includes('best eur')))),
-    date:['timestamp','date'],
-    type:['transaction type','type'],
-    asset:['asset','asset name'],
-    qty:['amount asset','amount','quantity'],
-    price:['asset market price','price','rate'],
-    proceeds:['amount eur','total','proceeds'],
-    profit:[],
+    date:['timestamp','date'],type:['transaction type','type'],asset:['asset','asset name'],
+    qty:['amount asset','amount','quantity'],price:['asset market price','price','rate'],proceeds:['amount eur','total','proceeds'],profit:[],
     map:{'buy':'BUY','sell':'SELL','deposit':null,'withdrawal':null,'savings interest':'INCOME','reward':'INCOME','bitpanda savings deposit':null}
   },
   binance:{
     detect:h=>h.some(x=>x.includes('pair')||(x.includes('fee')&&h.some(y=>y.includes('coin')))),
-    date:['date','utc_time','time'],
-    type:['side','type','operation'],
-    asset:['pair','market','coin'],
-    qty:['executed','amount','qty'],
-    price:['price','avg. price','avg price'],
-    proceeds:['total','amount'],
-    profit:['realized profit','pnl'],
+    date:['date','utc_time','time'],type:['side','type','operation'],asset:['pair','market','coin'],
+    qty:['executed','amount','qty'],price:['price','avg. price','avg price'],proceeds:['total','amount'],profit:['realized profit','pnl'],
     map:{'buy':'BUY','sell':'SELL','deposit':null,'withdrawal':null,'staking rewards':'INCOME','distribution':'INCOME'}
   },
   uphold:{
     detect:h=>h.some(x=>x==='destination'||x==='origin'||(x.includes('destination amount')&&h.some(y=>y.includes('origin amount')))||h.some(x=>x==='type'&&h.some(y=>y==='destination currency'||y==='origin currency'))),
-    date:['date','timestamp','created at'],
-    type:['type'],
-    asset:['destination currency','origin currency','currency'],
-    qty:['destination amount','origin amount','amount'],
-    price:['destination rate','rate','price'],
-    proceeds:['destination amount','origin amount','total'],
-    profit:[],
+    date:['date','timestamp','created at'],type:['type'],asset:['destination currency','origin currency','currency'],
+    qty:['destination amount','origin amount','amount'],price:['destination rate','rate','price'],proceeds:['destination amount','origin amount','total'],profit:[],
     map:{'buy':'BUY','sell':'SELL','in':'BUY','out':'SELL','transfer':'BUY','exchange':'BUY','deposit':null,'withdrawal':null,'reward':'INCOME','staking':'INCOME'}
   },
   generic:{
@@ -383,20 +355,20 @@ const MAPS={
   }
 };
 
-const ASSETS={'bitcoin':'BTC','bitcoin cash':'BCH','ethereum':'ETH','ethereum classic':'ETC','solana':'SOL','cardano':'ADA','ripple':'XRP','xrp':'XRP','dogecoin':'DOGE','polkadot':'DOT','chainlink':'LINK','litecoin':'LTC','stellar':'XLM','uniswap':'UNI','avalanche':'AVAX','polygon':'MATIC','shiba inu':'SHIB','bnb':'BNB','binance coin':'BNB','tron':'TRX','near protocol':'NEAR','near':'NEAR','aave':'AAVE','compound':'COMP','maker':'MKR','cosmos':'ATOM','algorand':'ALGO','vechain':'VET','filecoin':'FIL','the graph':'GRT','enjin coin':'ENJ','basic attention token':'BAT','decentraland':'MANA','sandbox':'SAND','axie infinity':'AXS','apecoin':'APE','internet computer':'ICP','flow':'FLOW','hedera':'HBAR','theta':'THETA','fantom':'FTM','celo':'CELO','harmony':'ONE','zilliqa':'ZIL','zcash':'ZEC','monero':'XMR','dash':'DASH','neo':'NEO','waves':'WAVES','iota':'MIOTA','ontology':'ONT','qtum':'QTUM','icon':'ICX','lisk':'LSK','nano':'NANO','verge':'XVG','siacoin':'SC','storj':'STORJ','golem':'GLM','status':'SNT','civic':'CVC','power ledger':'POWR','request':'REQ','salt':'SALT','loopring':'LRC','kyber network':'KNC','0x':'ZRX','augur':'REP','district0x':'DNT','aragon':'ANT','gnosis':'GNO','bancor':'BNT','numeraire':'NMR','melon':'MLN','digix gold':'DGD','firstblood':'ST','matchpool':'GUP','chronobank':'TIME','humaniq':'HMQ'};
+const ASSETS={'bitcoin':'BTC','bitcoin cash':'BCH','ethereum':'ETH','ethereum classic':'ETC','solana':'SOL','cardano':'ADA','ripple':'XRP','xrp':'XRP','dogecoin':'DOGE','polkadot':'DOT','chainlink':'LINK','litecoin':'LTC','stellar':'XLM','uniswap':'UNI','avalanche':'AVAX','polygon':'MATIC','shiba inu':'SHIB','bnb':'BNB','binance coin':'BNB','tron':'TRX','near protocol':'NEAR','near':'NEAR','aave':'AAVE','compound':'COMP','maker':'MKR','cosmos':'ATOM','algorand':'ALGO','vechain':'VET','filecoin':'FIL','the graph':'GRT'};
 
 const GUIDES={
   etoro:`<div class="ig-title">HOW TO EXPORT FROM ETORO</div><div class="ig-step"><span class="ig-num">1.</span>Log in → Portfolio → History</div><div class="ig-step"><span class="ig-num">2.</span>Click the download icon (top right)</div><div class="ig-step"><span class="ig-num">3.</span>Select date range → Download Excel (.xlsx)</div><div class="ig-step"><span class="ig-num">4.</span>Upload the file above</div>`,
   coinbase:`<div class="ig-title">HOW TO EXPORT FROM COINBASE</div><div class="ig-step"><span class="ig-num">1.</span>Go to coinbase.com → Taxes → Documents</div><div class="ig-step"><span class="ig-num">2.</span>Download "Transaction History CSV"</div><div class="ig-step"><span class="ig-num">3.</span>Upload the file above</div>`,
-  kraken:`<div class="ig-title">HOW TO EXPORT FROM KRAKEN</div><div class="ig-step"><span class="ig-num">1.</span>Go to History → Export → Ledgers</div><div class="ig-step"><span class="ig-num">2.</span>Set date range → Generate Report</div><div class="ig-step"><span class="ig-num">3.</span>Download → Upload above</div>`,
+  kraken:`<div class="ig-title">HOW TO EXPORT FROM KRAKEN</div><div class="ig-step"><span class="ig-num">1.</span>Go to History → Export → Ledgers</div><div class="ig-step"><span class="ig-num">2.</span>Set date range → Generate Report → Download → Upload above</div>`,
   revolut:`<div class="ig-title">HOW TO EXPORT FROM REVOLUT</div><div class="ig-step"><span class="ig-num">1.</span>Open Revolut app → Crypto section</div><div class="ig-step"><span class="ig-num">2.</span>Tap the clock icon → Statement</div><div class="ig-step"><span class="ig-num">3.</span>Export as CSV or PDF → Upload above</div>`,
-  gemini:`<div class="ig-title">HOW TO EXPORT FROM GEMINI</div><div class="ig-step"><span class="ig-num">1.</span>Go to Account → Balances → Transaction History</div><div class="ig-step"><span class="ig-num">2.</span>Click "Download Transactions" → CSV</div><div class="ig-step"><span class="ig-num">3.</span>Upload the file above</div>`,
-  okx:`<div class="ig-title">HOW TO EXPORT FROM OKX</div><div class="ig-step"><span class="ig-num">1.</span>Go to Trade → Orders → Order History</div><div class="ig-step"><span class="ig-num">2.</span>Click Export → Select date range</div><div class="ig-step"><span class="ig-num">3.</span>Download → Upload above</div>`,
-  cryptocom:`<div class="ig-title">HOW TO EXPORT FROM CRYPTO.COM</div><div class="ig-step"><span class="ig-num">1.</span>Open the app → Accounts → Transaction History</div><div class="ig-step"><span class="ig-num">2.</span>Tap Export → Select date range</div><div class="ig-step"><span class="ig-num">3.</span>Download → Upload above</div>`,
-  bitstamp:`<div class="ig-title">HOW TO EXPORT FROM BITSTAMP</div><div class="ig-step"><span class="ig-num">1.</span>Go to Transactions → All transactions</div><div class="ig-step"><span class="ig-num">2.</span>Click Export to CSV</div><div class="ig-step"><span class="ig-num">3.</span>Upload the file above</div>`,
-  bitpanda:`<div class="ig-title">HOW TO EXPORT FROM BITPANDA</div><div class="ig-step"><span class="ig-num">1.</span>Go to My Account → History</div><div class="ig-step"><span class="ig-num">2.</span>Click Export → Download CSV</div><div class="ig-step"><span class="ig-num">3.</span>Upload the file above</div>`,
-  binance:`<div class="ig-title">HOW TO EXPORT FROM BINANCE</div><div class="ig-step"><span class="ig-num">1.</span>Go to Wallet → Transaction History</div><div class="ig-step"><span class="ig-num">2.</span>Click Export → Select date range</div><div class="ig-step"><span class="ig-num">3.</span>Download → Upload above</div>`,
-  uphold:`<div class="ig-title">HOW TO EXPORT FROM UPHOLD</div><div class="ig-step"><span class="ig-num">1.</span>Log in to uphold.com → Go to Activity</div><div class="ig-step"><span class="ig-num">2.</span>Click "Download" or "Export" (top right)</div><div class="ig-step"><span class="ig-num">3.</span>Select date range → Download CSV</div><div class="ig-step"><span class="ig-num">4.</span>Upload the file above</div>`,
+  gemini:`<div class="ig-title">HOW TO EXPORT FROM GEMINI</div><div class="ig-step"><span class="ig-num">1.</span>Go to Account → Balances → Transaction History</div><div class="ig-step"><span class="ig-num">2.</span>Click "Download Transactions" → CSV → Upload above</div>`,
+  okx:`<div class="ig-title">HOW TO EXPORT FROM OKX</div><div class="ig-step"><span class="ig-num">1.</span>Go to Trade → Orders → Order History</div><div class="ig-step"><span class="ig-num">2.</span>Click Export → Select date range → Download → Upload above</div>`,
+  cryptocom:`<div class="ig-title">HOW TO EXPORT FROM CRYPTO.COM</div><div class="ig-step"><span class="ig-num">1.</span>Open the app → Accounts → Transaction History</div><div class="ig-step"><span class="ig-num">2.</span>Tap Export → Select date range → Download → Upload above</div>`,
+  bitstamp:`<div class="ig-title">HOW TO EXPORT FROM BITSTAMP</div><div class="ig-step"><span class="ig-num">1.</span>Go to Transactions → All transactions</div><div class="ig-step"><span class="ig-num">2.</span>Click Export to CSV → Upload above</div>`,
+  bitpanda:`<div class="ig-title">HOW TO EXPORT FROM BITPANDA</div><div class="ig-step"><span class="ig-num">1.</span>Go to My Account → History</div><div class="ig-step"><span class="ig-num">2.</span>Click Export → Download CSV → Upload above</div>`,
+  binance:`<div class="ig-title">HOW TO EXPORT FROM BINANCE</div><div class="ig-step"><span class="ig-num">1.</span>Go to Wallet → Transaction History</div><div class="ig-step"><span class="ig-num">2.</span>Click Export → Select date range → Download → Upload above</div>`,
+  uphold:`<div class="ig-title">HOW TO EXPORT FROM UPHOLD</div><div class="ig-step"><span class="ig-num">1.</span>Log in to uphold.com → Go to Activity</div><div class="ig-step"><span class="ig-num">2.</span>Click "Download" or "Export" (top right)</div><div class="ig-step"><span class="ig-num">3.</span>Select date range → Download CSV → Upload above</div>`,
 };
 
 function setEx(n){
@@ -405,294 +377,319 @@ function setEx(n){
   document.getElementById('eb-'+n)?.classList.add('active');
   const guide=document.getElementById('ig');
   if(GUIDES[n]){guide.style.display='block';guide.innerHTML=GUIDES[n];}
-  else{guide.style.display='none';}
-  status(`${n.charAt(0).toUpperCase()+n.slice(1)} selected — follow the export guide below, then upload your file`,'loading');
+  else guide.style.display='none';
 }
 
+// ── FILE HANDLING ─────────────────────────────────────────────────
 function handleUpload(e){
-  const f=e.target.files[0]; if(!f) return;
-  const ext=f.name.split('.').pop().toLowerCase();
-  status(`<span class="spin">⟳</span> Reading ${f.name}...`,'loading');
-  if(ext==='pdf') parsePDF(f);
-  else if(ext==='xls'||ext==='xlsx') parseXLS(f);
-  else if(ext==='csv'){ const r=new FileReader(); r.onload=ev=>parseCSV(ev.target.result,f.name); r.readAsText(f); }
-  else status('Unsupported format. Please upload XLS, XLSX, CSV or PDF.','err');
+  const files=Array.from(e.target.files);
+  files.forEach(f=>queueFile(f));
+  document.getElementById('fi').value='';
 }
 
-function parseXLS(f){
+function queueFile(f){
+  const id='f'+Date.now()+Math.random().toString(36).slice(2,6);
+  ALL_FILES.push({id,filename:f.name,exchange:null,transactions:[],status:'reading',file:f});
+  renderFileList();
+  const ext=f.name.split('.').pop().toLowerCase();
+  if(ext==='pdf') readPDF(f,id);
+  else if(ext==='xls'||ext==='xlsx') readXLS(f,id);
+  else if(ext==='csv'){const r=new FileReader();r.onload=ev=>readCSV(ev.target.result,f.name,id);r.readAsText(f);}
+  else updateFile(id,{status:'err',meta:'Unsupported format'});
+}
+
+function updateFile(id,updates){
+  const idx=ALL_FILES.findIndex(f=>f.id===id);
+  if(idx>=0) Object.assign(ALL_FILES[idx],updates);
+  renderFileList();
+  const ready=ALL_FILES.filter(f=>f.status==='ok');
+  document.getElementById('ba').disabled=ready.length===0;
+  document.getElementById('bc').style.display=ALL_FILES.length?'block':'none';
+}
+
+function renderFileList(){
+  const fl=document.getElementById('fl');
+  fl.innerHTML=ALL_FILES.map(f=>{
+    const icon=f.status==='ok'?'✅':f.status==='err'?'❌':'⏳';
+    const meta=f.status==='ok'?`${f.transactions.length} txs · ${f.exchange}`:f.status==='err'?f.meta||'Error':'Reading...';
+    return `<div class="file-item ${f.status==='ok'?'ok':f.status==='err'?'err':''}">
+      <div class="fi-icon">${icon}</div>
+      <div class="fi-info"><div class="fi-name">${f.filename}</div><div class="fi-meta">${meta}</div></div>
+      <button class="fi-remove" onclick="removeFile('${f.id}')">×</button>
+    </div>`;
+  }).join('');
+}
+
+function removeFile(id){
+  ALL_FILES=ALL_FILES.filter(f=>f.id!==id);
+  renderFileList();
+  const ready=ALL_FILES.filter(f=>f.status==='ok');
+  document.getElementById('ba').disabled=ready.length===0;
+  document.getElementById('bc').style.display=ALL_FILES.length?'block':'none';
+}
+
+function clearAll(){
+  ALL_FILES=[];PD=null;CH=[];
+  renderFileList();
+  document.getElementById('ba').disabled=true;
+  document.getElementById('bc').style.display='none';
+  document.getElementById('ss').style.display='none';
+  document.getElementById('ts').style.display='none';
+  document.getElementById('as').style.display='none';
+  document.getElementById('ws').style.display='block';
+  document.getElementById('pb').style.display='none';
+  document.getElementById('cm').innerHTML=`<div class="welcome" id="ws">
+    <div class="welcome-icon">Tx</div>
+    <h2>Your UK crypto tax, handled properly.</h2>
+    <p>Upload files from all your exchanges at once — TxCrypto merges everything, pools your holdings correctly and calculates your CGT across all platforms.</p>
+    <div class="sg">
+      <div class="sug" onclick="askS(this)"><span class="si">📊</span>How much CGT do I owe this tax year?<span class="st">Get a full breakdown</span></div>
+      <div class="sug" onclick="askS(this)"><span class="si">🌱</span>Which positions should I sell to harvest losses?<span class="st">Before April 5th</span></div>
+      <div class="sug" onclick="askS(this)"><span class="si">⚖️</span>Explain the 30-day bed and breakfast rule<span class="st">UK-specific HMRC rule</span></div>
+      <div class="sug" onclick="askS(this)"><span class="si">🔮</span>If I sell my ETH today, what's my tax hit?<span class="st">What-if scenario</span></div>
+    </div>
+  </div>`;
+}
+
+// ── FILE READERS ──────────────────────────────────────────────────
+function readXLS(f,id){
   const r=new FileReader();
   r.onload=e=>{
     try{
       const wb=XLSX.read(new Uint8Array(e.target.result),{type:'array',cellDates:true});
-      const SHEET_PRIORITY=['closed positions','account activity','transactions','trade history','history','orders','trades'];
+      const PRIO=['closed positions','account activity','transactions','trade history','history','orders','trades'];
       let sn=null;
-      for(const target of SHEET_PRIORITY){
-        const found=wb.SheetNames.find(n=>n.toLowerCase().trim()===target);
-        if(found){sn=found;break;}
-      }
-      if(!sn){
-        let maxRows=0;
-        for(const name of wb.SheetNames){
-          const rows=XLSX.utils.sheet_to_json(wb.Sheets[name],{raw:false,defval:''});
-          if(rows.length>maxRows){maxRows=rows.length;sn=name;}
-        }
-      }
-      status(`<span class="spin">⟳</span> Reading sheet "${sn}"...`,'loading');
+      for(const t of PRIO){const found=wb.SheetNames.find(n=>n.toLowerCase().trim()===t);if(found){sn=found;break;}}
+      if(!sn){let mx=0;for(const n of wb.SheetNames){const rows=XLSX.utils.sheet_to_json(wb.Sheets[n],{raw:false,defval:''});if(rows.length>mx){mx=rows.length;sn=n;}}}
       const rows=XLSX.utils.sheet_to_json(wb.Sheets[sn],{raw:false,defval:''});
-      if(!rows.length){status(`Sheet "${sn}" appears empty. Available sheets: ${wb.SheetNames.join(', ')}.`,'err');return;}
+      if(!rows.length){updateFile(id,{status:'err',meta:'Sheet appears empty'});return;}
       const headers=Object.keys(rows[0]).map(h=>h.toLowerCase().trim());
       const ex=SEX||detectEx(headers);
-      finish(normalise(rows,ex),f.name,ex,`XLS — sheet "${sn}", ${rows.length} rows`);
-    }catch(e){status(`XLS error: ${e.message}`,'err');}
+      const txs=normalise(rows,ex);
+      if(!txs.length){updateFile(id,{status:'err',meta:'No valid transactions found'});return;}
+      updateFile(id,{status:'ok',exchange:ex,transactions:txs,meta:`${txs.length} txs · ${ex}`});
+    }catch(e){updateFile(id,{status:'err',meta:e.message});}
   };
   r.readAsArrayBuffer(f);
 }
 
-function parseCSV(text,fn){
+function readCSV(text,fn,id){
   try{
     const lines=text.split('\n').filter(l=>l.trim());
-    if(lines.length<2){status('File appears empty.','err');return;}
+    if(lines.length<2){updateFile(id,{status:'err',meta:'File appears empty'});return;}
     const headers=lines[0].split(',').map(h=>h.replace(/"/g,'').trim().toLowerCase());
     const rows=lines.slice(1).map(line=>{
       const vals=line.split(',').map(v=>v.replace(/"/g,'').trim());
-      const o={}; headers.forEach((h,i)=>o[h]=vals[i]||''); return o;
+      const o={};headers.forEach((h,i)=>o[h]=vals[i]||'');return o;
     }).filter(r=>Object.values(r).some(v=>v));
     const ex=SEX||detectEx(headers);
-    finish(normalise(rows,ex),fn,ex,`CSV — ${rows.length} rows`);
-  }catch(e){status(`CSV error: ${e.message}`,'err');}
+    const txs=normalise(rows,ex);
+    if(!txs.length){updateFile(id,{status:'err',meta:'No valid transactions found'});return;}
+    updateFile(id,{status:'ok',exchange:ex,transactions:txs});
+  }catch(e){updateFile(id,{status:'err',meta:e.message});}
 }
 
-async function parsePDF(f){
-  if(typeof pdfjsLib==='undefined'){status('PDF library not loaded — try XLS instead.','err');return;}
+async function readPDF(f,id){
+  if(typeof pdfjsLib==='undefined'){updateFile(id,{status:'err',meta:'PDF library not loaded'});return;}
   try{
     const buf=await f.arrayBuffer();
     const pdf=await pdfjsLib.getDocument({data:buf}).promise;
     let txt='';
     for(let i=1;i<=pdf.numPages;i++){
-      const pg=await pdf.getPage(i);
-      const ct=await pg.getTextContent();
-      const items=ct.items;
+      const pg=await pdf.getPage(i);const ct=await pg.getTextContent();
       let lastY=null;
-      for(const item of items){
+      for(const item of ct.items){
         const y=item.transform?item.transform[5]:0;
-        if(lastY!==null&&Math.abs(y-lastY)>5) txt+='\n';
-        txt+=item.str+' ';
-        lastY=y;
-      }
-      txt+='\n';
+        if(lastY!==null&&Math.abs(y-lastY)>5)txt+='\n';
+        txt+=item.str+' ';lastY=y;
+      }txt+='\n';
     }
-    if(!txt.trim()){status('PDF appears to be a scanned image — text could not be extracted.','err');return;}
-    const fullText=txt;
-    const truncated=txt.substring(0,5000);
-    PD={raw:truncated,fullText:fullText,filename:f.name,format:'PDF',transactions:[],summary:{},alerts:[],isPDF:true};
-    status(`✓ PDF read — ${pdf.numPages} page${pdf.numPages>1?'s':''}. Ask me anything below.`,'ok');
-    document.getElementById('ws').style.display='none';
-    addMsg('assistant',
-      `PDF **${f.name}** loaded successfully (${pdf.numPages} pages).\n\n`+
-      `I have read the full text of your statement. Just ask me anything — for example:\n\n`+
-      `• "Summarise all my transactions"\n`+
-      `• "How much CGT do I owe?"\n`+
-      `• "What were my total gains and losses?"\n\n`+
-      `<span class="hl hb">💡 For faster and more accurate results, export as CSV or XLS from your exchange where possible.</span>`
-    );
-  }catch(e){status(`Could not read PDF — try exporting as CSV or XLS instead.`,'err');}
+    if(!txt.trim()){updateFile(id,{status:'err',meta:'Scanned PDF — no text found'});return;}
+    updateFile(id,{status:'ok',exchange:'pdf',transactions:[],isPDF:true,pdfText:txt.substring(0,5000),pdfPages:pdf.numPages});
+  }catch(e){updateFile(id,{status:'err',meta:'Could not read PDF'});}
 }
 
-function detectEx(h){
-  for(const[n,m] of Object.entries(MAPS)){if(n!=='generic'&&m.detect(h))return n;} return 'generic';
-}
+// ── ANALYSE ALL ───────────────────────────────────────────────────
+function analyseAll(){
+  const ready=ALL_FILES.filter(f=>f.status==='ok');
+  if(!ready.length) return;
 
-function col(row,candidates){
-  const keys=Object.keys(row);
-  for(const c of candidates){
-    const k=keys.find(k=>k.toLowerCase().trim()===c||k.toLowerCase().trim().includes(c));
-    if(k) return row[k]||'';
-  } return '';
-}
+  // Merge all transactions across all files, sorted by date
+  const allTxs=ready.flatMap(f=>f.transactions.map(t=>({...t,source:f.exchange})));
+  allTxs.sort((a,b)=>new Date(a.date)-new Date(b.date));
 
-function normalise(rows,exName){
-  const m=MAPS[exName]||MAPS.generic;
-  const out=[];
-  for(const row of rows){
-    const rt=col(row,m.type).toLowerCase().trim();
-    const mapped=m.map[rt];
-    if(mapped===null) continue;
-    if(mapped===undefined&&rt&&!rt.includes("buy")&&!rt.includes("sell")&&!rt.includes("open")&&!rt.includes("close")&&!rt.includes("position")) continue;
-    const asset=col(row,m.asset); if(!asset) continue;
-    if(['usd','gbp','eur','usdt','usdc','busd',''].includes(asset.toLowerCase())) continue;
-    const clean=cleanAsset(asset);
-    const profit=col(row,m.profit);
-    const gain=profit!==''?parseFloat(profit):null;
-    out.push({
-      date:fmtDate(col(row,m.date)),
-      type:mapped||(rt.includes('buy')?'BUY':rt.includes('sell')?'SELL':'UNKNOWN'),
-      asset:clean,
-      qty:Math.abs(parseFloat(col(row,m.qty))||0),
-      price:parseFloat(col(row,m.price))||0,
-      proceeds:parseFloat(col(row,m.proceeds))||0,
-      gain:isNaN(gain)?null:gain,
-      raw:rt
-    });
-  }
-  return out.filter(r=>r.type!=='UNKNOWN'&&r.asset&&r.qty>0);
-}
+  const exchanges=[...new Set(ready.map(f=>f.exchange))];
+  const pdfFiles=ready.filter(f=>f.isPDF);
 
-function cleanAsset(n){
-  const lo=n.toLowerCase().trim();
-  if(ASSETS[lo]) return ASSETS[lo];
-  if(n.length<=6&&n===n.toUpperCase()) return n;
-  const pm=n.match(/^([A-Z]{2,6})[\/\-_](USD|USDT|GBP|EUR|USDC)/i);
-  if(pm) return pm[1].toUpperCase();
-  return n.toUpperCase().substring(0,10);
-}
-
-function fmtDate(r){
-  if(!r) return 'Unknown';
-  if(typeof r==='number'){const d=new Date((r-25569)*86400*1000);return d.toISOString().split('T')[0];}
-  const s=String(r).trim(); const d=new Date(s);
-  return isNaN(d)?s.substring(0,10):d.toISOString().split('T')[0];
-}
-
-function finish(txs,fn,ex,meta){
-  if(!txs.length){status("No valid transactions found. The columns in your file did not match the expected format.<br><br>Try selecting your exchange from the list and re-uploading.","err");return;}
-  const sells=txs.filter(t=>t.type==='SELL');
+  const sells=allTxs.filter(t=>t.type==='SELL');
   const gains=sells.filter(t=>(t.gain||0)>0).reduce((s,t)=>s+(t.gain||0),0);
   const losses=Math.abs(sells.filter(t=>(t.gain||0)<0).reduce((s,t)=>s+(t.gain||0),0));
   const net=gains-losses;
   const taxable=Math.max(0,net-3000);
   const tax=Math.round(taxable*0.18);
-  PD={transactions:txs,filename:fn,exchange:ex,meta,summary:{netGain:Math.round(net),estimatedTax:tax,taxableGain:Math.round(taxable),openPositions:Math.max(0,txs.filter(t=>t.type==='BUY').length-sells.length)},alerts:genAlerts(txs,taxable)};
-  rSum(); rTx(); rAl();
-  status(`✓ ${txs.length} transactions imported from ${ex} (${meta})`,'ok');
+
+  PD={
+    transactions:allTxs,
+    exchanges,
+    summary:{netGain:Math.round(net),estimatedTax:tax,taxableGain:Math.round(taxable),openPositions:Math.max(0,allTxs.filter(t=>t.type==='BUY').length-sells.length)},
+    alerts:genAlerts(allTxs,taxable),
+    pdfFiles
+  };
+
+  rSum();rTx();rAl();
   document.getElementById('ws').style.display='none';
-  const exL=ex.charAt(0).toUpperCase()+ex.slice(1);
-  addMsg('assistant',
-    `**${fn}** imported — **${txs.length} transactions** from **${exL}**.\n\n`+
-    `<span class="hl ha">⚠ Estimated CGT: £${tax.toLocaleString()} — based on £${Math.round(taxable).toLocaleString()} taxable gains after your £3,000 allowance</span>\n\n`+
-    (ex==='etoro'?`<span class="hl hb">eToro note: profit figures are in USD. For accurate HMRC calculations you'll need GBP values at each transaction date.</span>\n\n`:'')+
-    (ex==='uphold'?`<span class="hl hb">Uphold note: amounts may be in USD. For accurate HMRC calculations you'll need GBP values at each transaction date.</span>\n\n`:'')+
-    `I can see ${sells.length} disposals with gains of **£${Math.round(gains).toLocaleString()}** and losses of **£${Math.round(losses).toLocaleString()}**.\n\nWhat would you like to know about your tax position?`
-  );
+  status(`✓ ${allTxs.length} transactions merged across ${exchanges.length} exchange${exchanges.length>1?'s':''}`, 'ok');
+
+  // Build summary message
+  const exList=exchanges.map(e=>e.charAt(0).toUpperCase()+e.slice(1)).join(', ');
+  let msg=`All files analysed — **${allTxs.length} transactions** across **${exList}**.\n\n`;
+  msg+=`<span class="hl ha">⚠ Estimated CGT: £${tax.toLocaleString()} — based on £${Math.round(taxable).toLocaleString()} taxable gains after your £3,000 allowance</span>\n\n`;
+  msg+=`Combined: **${sells.length} disposals** with gains of **£${Math.round(gains).toLocaleString()}** and losses of **£${Math.round(losses).toLocaleString()}**.\n\n`;
+  if(exchanges.includes('etoro')||exchanges.includes('uphold')) msg+=`<span class="hl hb">⚠ Some exchanges report in USD. For accurate HMRC figures, convert each transaction to GBP at the rate on the transaction date.</span>\n\n`;
+  if(pdfFiles.length) msg+=`**${pdfFiles.length} PDF file${pdfFiles.length>1?'s':''} uploaded** — ask me to summarise those separately.\n\n`;
+  msg+=`What would you like to know about your combined tax position?`;
+  addMsg('assistant',msg);
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────
+function detectEx(h){for(const[n,m]of Object.entries(MAPS)){if(n!=='generic'&&m.detect(h))return n;}return 'generic';}
+
+function col(row,candidates){
+  const keys=Object.keys(row);
+  for(const c of candidates){const k=keys.find(k=>k.toLowerCase().trim()===c||k.toLowerCase().trim().includes(c));if(k)return row[k]||'';}
+  return '';
+}
+
+function normalise(rows,exName){
+  const m=MAPS[exName]||MAPS.generic;const out=[];
+  for(const row of rows){
+    const rt=col(row,m.type).toLowerCase().trim();
+    const mapped=m.map[rt];
+    if(mapped===null)continue;
+    if(mapped===undefined&&rt&&!rt.includes("buy")&&!rt.includes("sell")&&!rt.includes("open")&&!rt.includes("close")&&!rt.includes("position"))continue;
+    const asset=col(row,m.asset);if(!asset)continue;
+    if(['usd','gbp','eur','usdt','usdc','busd',''].includes(asset.toLowerCase()))continue;
+    const clean=cleanAsset(asset);
+    const profit=col(row,m.profit);const gain=profit!==''?parseFloat(profit):null;
+    out.push({date:fmtDate(col(row,m.date)),type:mapped||(rt.includes('buy')?'BUY':rt.includes('sell')?'SELL':'UNKNOWN'),asset:clean,qty:Math.abs(parseFloat(col(row,m.qty))||0),price:parseFloat(col(row,m.price))||0,proceeds:parseFloat(col(row,m.proceeds))||0,gain:isNaN(gain)?null:gain,raw:rt});
+  }
+  return out.filter(r=>r.type!=='UNKNOWN'&&r.asset&&r.qty>0);
+}
+
+function cleanAsset(n){
+  const lo=n.toLowerCase().trim();if(ASSETS[lo])return ASSETS[lo];
+  if(n.length<=6&&n===n.toUpperCase())return n;
+  const pm=n.match(/^([A-Z]{2,6})[\/\-_](USD|USDT|GBP|EUR|USDC)/i);if(pm)return pm[1].toUpperCase();
+  return n.toUpperCase().substring(0,10);
+}
+
+function fmtDate(r){
+  if(!r)return 'Unknown';
+  if(typeof r==='number'){const d=new Date((r-25569)*86400*1000);return d.toISOString().split('T')[0];}
+  const s=String(r).trim();const d=new Date(s);return isNaN(d)?s.substring(0,10):d.toISOString().split('T')[0];
 }
 
 function genAlerts(txs,taxable){
   const a=[];
-  const today=new Date(); const ye=new Date(today.getFullYear(),3,5);
+  const today=new Date();const ye=new Date(today.getFullYear(),3,5);
   const days=Math.round((ye-today)/(1000*60*60*24));
-  if(days>0&&days<60) a.push({type:'warning',tag:'CGT DEADLINE',text:`April 5th is ${days} day${days!==1?'s':''} away. Review open positions for loss harvesting opportunities.`});
-  if(taxable>0) a.push({type:'info',tag:'TAXABLE GAINS',text:`£${Math.round(taxable).toLocaleString()} in taxable gains after your £3,000 allowance. Est. CGT: £${Math.round(taxable*0.18).toLocaleString()} at basic rate.`});
-  if(txs.some(t=>t.raw&&(t.raw.includes('staking')||t.raw.includes('reward')||t.raw.includes('earn')))) a.push({type:'warning',tag:'INCOME DETECTED',text:'Staking or reward transactions found — these may be taxable as income, not CGT.'});
+  if(days>0&&days<60)a.push({type:'warning',tag:'CGT DEADLINE',text:`April 5th is ${days} day${days!==1?'s':''} away. Review open positions for loss harvesting opportunities.`});
+  if(taxable>0)a.push({type:'info',tag:'TAXABLE GAINS',text:`£${Math.round(taxable).toLocaleString()} in taxable gains after your £3,000 allowance. Est. CGT: £${Math.round(taxable*0.18).toLocaleString()} at basic rate.`});
+  if(txs.some(t=>t.raw&&(t.raw.includes('staking')||t.raw.includes('reward')||t.raw.includes('earn'))))a.push({type:'warning',tag:'INCOME DETECTED',text:'Staking or reward transactions found — these may be taxable as income, not CGT.'});
   return a;
 }
 
 function rSum(){
-  const s=PD.summary; document.getElementById('ss').style.display='block';
+  const s=PD.summary;document.getElementById('ss').style.display='block';
   document.getElementById('sg').innerHTML=`
     <div class="sc"><div class="lbl">NET GAIN</div><div class="val vb">£${s.netGain.toLocaleString()}</div><div class="sub">realised</div></div>
     <div class="sc"><div class="lbl">EST. TAX</div><div class="val vr">£${s.estimatedTax.toLocaleString()}</div><div class="sub">at 18%</div></div>
     <div class="sc"><div class="lbl">TAXABLE</div><div class="val va">£${s.taxableGain.toLocaleString()}</div><div class="sub">after £3k</div></div>
-    <div class="sc"><div class="lbl">TRANSACTIONS</div><div class="val vg">${PD.transactions.length}</div><div class="sub">imported</div></div>`;
+    <div class="sc"><div class="lbl">TRANSACTIONS</div><div class="val vg">${PD.transactions.length}</div><div class="sub">total</div></div>`;
 }
 
 function rTx(){
   document.getElementById('ts').style.display='block';
   document.getElementById('tl').innerHTML=[...PD.transactions].reverse().slice(0,6).map(t=>{
-    const s=t.type==='SELL'; const gc=!s?'tn':((t.gain||0)>=0?'tg':'tl');
+    const s=t.type==='SELL';const gc=!s?'tn':((t.gain||0)>=0?'tg':'tl');
     const gt=!s?'—':t.gain!=null?((t.gain>=0?'+':'')+`£${Math.abs(Math.round(t.gain)).toLocaleString()}`):'-';
-    return `<div class="tx"><div class="txl"><div class="txd">${t.date} · ${t.type}</div><div>${t.qty} ${t.asset}</div></div><div class="txr"><div class="${gc}">${gt}</div><div class="tp">${t.price?'@ £'+t.price.toLocaleString():''}</div></div></div>`;
+    return `<div class="tx"><div class="txl"><div class="txd">${t.date} · ${t.type} · ${t.source||''}</div><div>${t.qty} ${t.asset}</div></div><div class="txr"><div class="${gc}">${gt}</div><div class="tp">${t.price?'@ £'+t.price.toLocaleString():''}</div></div></div>`;
   }).join('');
 }
 
 function rAl(){
-  if(!PD.alerts.length) return;
+  if(!PD.alerts.length)return;
   document.getElementById('as').style.display='block';
   document.getElementById('al').innerHTML=PD.alerts.map(a=>`<div class="al ${a.type}"><span class="at">${a.tag}</span>${a.text}</div>`).join('');
 }
 
 function loadDemo(){
-  PD={
-    transactions:[
-      {date:'2024-05-12',type:'BUY', asset:'BTC',qty:0.5, price:48200,gain:null},
-      {date:'2024-06-20',type:'BUY', asset:'ETH',qty:4.0, price:2800, gain:null},
-      {date:'2024-07-15',type:'SELL',asset:'BTC',qty:0.2, price:54800,gain:1320},
-      {date:'2024-08-03',type:'BUY', asset:'SOL',qty:80,  price:142,  gain:null},
-      {date:'2024-09-11',type:'SELL',asset:'ETH',qty:1.5, price:2450, gain:-525},
-      {date:'2024-12-14',type:'SELL',asset:'BTC',qty:0.25,price:94000,gain:8782},
-      {date:'2025-02-18',type:'SELL',asset:'ETH',qty:2.0, price:2650, gain:-300},
-    ],
-    summary:{netGain:10957,estimatedTax:1989,taxableGain:7957,openPositions:4},
-    alerts:[
-      {type:'warning',tag:'CGT DEADLINE',text:'April 5th is 18 days away. Selling your ETH loss position could save ~£800.'},
-      {type:'tip',    tag:'LOSS HARVEST',text:'Your SOL position is down £1,100 from cost basis. Selling and rebuying after 30 days could offset future gains.'},
-      {type:'info',   tag:'ALLOWANCE',   text:"You've used £7,957 against the £3,000 allowance. You'll pay 18% on the £4,957 excess."},
-    ],
-    filename:'sample-portfolio',exchange:'demo'
-  };
-  rSum(); rTx(); rAl();
-  document.getElementById('ws').style.display='none';
-  addMsg('assistant','Sample portfolio loaded for **2024–25**.\n\n<span class="hl ha">⚠ Estimated CGT: £1,989 — based on £7,957 taxable gains after your £3,000 allowance</span>\n\nNet realised gain **£10,957** across BTC, ETH and SOL. Ask me "what should I sell before April 5th?" to see your loss harvesting options.');
+  ALL_FILES=[
+    {id:'demo1',filename:'etoro-2024.xlsx',exchange:'etoro',status:'ok',transactions:[
+      {date:'2024-05-12',type:'BUY',asset:'BTC',qty:0.5,price:48200,gain:null,source:'etoro'},
+      {date:'2024-07-15',type:'SELL',asset:'BTC',qty:0.2,price:54800,gain:1320,source:'etoro'},
+      {date:'2024-12-14',type:'SELL',asset:'BTC',qty:0.25,price:94000,gain:8782,source:'etoro'},
+    ]},
+    {id:'demo2',filename:'coinbase-2024.csv',exchange:'coinbase',status:'ok',transactions:[
+      {date:'2024-06-20',type:'BUY',asset:'ETH',qty:4.0,price:2800,gain:null,source:'coinbase'},
+      {date:'2024-09-11',type:'SELL',asset:'ETH',qty:1.5,price:2450,gain:-525,source:'coinbase'},
+      {date:'2025-02-18',type:'SELL',asset:'ETH',qty:2.0,price:2650,gain:-300,source:'coinbase'},
+    ]},
+    {id:'demo3',filename:'kraken-2024.csv',exchange:'kraken',status:'ok',transactions:[
+      {date:'2024-08-03',type:'BUY',asset:'SOL',qty:80,price:142,gain:null,source:'kraken'},
+      {date:'2025-01-10',type:'SELL',asset:'SOL',qty:40,price:185,gain:1720,source:'kraken'},
+    ]}
+  ];
+  renderFileList();
+  document.getElementById('ba').disabled=false;
+  document.getElementById('bc').style.display='block';
+  analyseAll();
 }
 
 function buildPrompt(){
   let ctx='';
   if(PD){
-    if(PD.isPDF) ctx=`\nUSER PDF (${PD.filename}):\n${PD.raw}`;
-    else if(PD.transactions?.length){
-      const txs=PD.transactions.slice(0,60).map(t=>`${t.date}: ${t.type} ${t.qty} ${t.asset}${t.price?' @ £'+t.price:''}${t.gain!=null?' | gain/loss: £'+t.gain:''}`).join('\n');
-      const s=PD.summary;
-      ctx=`\nEXCHANGE: ${PD.exchange}\nDATA:\n${txs}\nSummary: net gain £${s.netGain}, taxable £${s.taxableGain}, est tax £${s.estimatedTax}`;
+    const txs=PD.transactions.slice(0,80).map(t=>`${t.date}: ${t.type} ${t.qty} ${t.asset} [${t.source}]${t.price?' @ £'+t.price:''}${t.gain!=null?' | gain/loss: £'+t.gain:''}`).join('\n');
+    const s=PD.summary;
+    const exList=(PD.exchanges||[]).join(', ');
+    ctx=`\nEXCHANGES: ${exList}\nMERGED TRANSACTIONS:\n${txs}\nSummary: net gain £${s.netGain}, taxable £${s.taxableGain}, est tax £${s.estimatedTax}`;
+    if(PD.pdfFiles?.length){
+      ctx+='\nPDF FILES:\n'+PD.pdfFiles.map(f=>`${f.filename}: ${f.pdfText||''}`).join('\n');
     }
   }
   return `You are TxCrypto, an expert UK crypto tax assistant for HMRC compliance.
 
 UK expertise: Section 104 pooling, same-day rule, 30-day bed-and-breakfast rule, £3,000 CGT allowance (2024-25), 18% basic / 24% higher rate CGT, income tax on staking and airdrops, DeFi treatment, SA100/SA108.
 
-eToro-specific: eToro uses "Open" for BUY and "Close" for SELL. eToro profits are in USD — for HMRC you must convert to GBP at the exchange rate on each transaction date.
+When a user has multiple exchanges, pool all holdings of the same asset across all exchanges together for Section 104 calculations — HMRC requires this.
 
-Uphold-specific: Uphold exports may show amounts in USD. For HMRC submissions, all values must be converted to GBP at the exchange rate on the date of each transaction.
+eToro/Uphold: profits may be in USD — must convert to GBP at transaction date for HMRC.
 
-Be direct, specific and numerical. Flag tax-saving opportunities proactively. Caveat you are not a regulated advisor.${ctx}`;
+Be direct, specific and numerical. Flag tax-saving opportunities. Caveat you are not a regulated advisor.${ctx}`;
 }
 
 async function send(){
-  const input=document.getElementById('ci');
-  const text=input.value.trim();
-  if(!text) return;
-  addMsg('user',text); input.value=''; input.style.height='auto';
+  const input=document.getElementById('ci');const text=input.value.trim();if(!text)return;
+  addMsg('user',text);input.value='';input.style.height='auto';
   document.getElementById('ws').style.display='none';
   document.getElementById('sbtn').disabled=true;
   CH.push({role:'user',content:text});
   const tid=showT();
   try{
-    const r=await fetch('/.netlify/functions/chat',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({messages:CH,system:buildPrompt(),max_tokens:1024})
-    });
+    const r=await fetch('/.netlify/functions/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:CH,system:buildPrompt(),max_tokens:1024})});
     removeT(tid);
-    if(!r.ok){
-      const e=await r.json().catch(()=>{});
-      addMsg('assistant',`⚠ ${e?.error||'Something went wrong. Please try again.'}`);
-      CH.pop(); return;
-    }
-    const d=await r.json();
-    const rep=d.content?.[0]?.text||'No response.';
-    CH.push({role:'assistant',content:rep});
-    addMsg('assistant',rep);
-  }catch(e){
-    removeT(tid);
-    addMsg('assistant',`⚠ Connection error. Please check your internet and try again.`);
-    CH.pop();
-  }finally{
-    document.getElementById('sbtn').disabled=false;
-  }
+    if(!r.ok){const e=await r.json().catch(()=>{});addMsg('assistant',`⚠ ${e?.error||'Something went wrong.'}`);CH.pop();return;}
+    const d=await r.json();const rep=d.content?.[0]?.text||'No response.';
+    CH.push({role:'assistant',content:rep});addMsg('assistant',rep);
+  }catch(e){removeT(tid);addMsg('assistant','⚠ Connection error. Please try again.');CH.pop();}
+  finally{document.getElementById('sbtn').disabled=false;}
 }
 
 function addMsg(role,text){
   const c=document.getElementById('cm'),d=document.createElement('div');
   d.className=`msg ${role}`;
   d.innerHTML=`<div class="av">${role==='assistant'?'Tx':'👤'}</div><div class="bub">${fmt(text)}</div>`;
-  c.appendChild(d); c.scrollTop=c.scrollHeight;
+  c.appendChild(d);c.scrollTop=c.scrollHeight;
 }
 
 function fmt(t){
@@ -702,12 +699,7 @@ function fmt(t){
 }
 
 let tc=0;
-function showT(){
-  const id=`t${++tc}`,c=document.getElementById('cm'),d=document.createElement('div');
-  d.className='msg assistant';d.id=id;
-  d.innerHTML=`<div class="av">Tx</div><div class="ti"><div class="td"></div><div class="td"></div><div class="td"></div></div>`;
-  c.appendChild(d);c.scrollTop=c.scrollHeight;return id;
-}
+function showT(){const id=`t${++tc}`,c=document.getElementById('cm'),d=document.createElement('div');d.className='msg assistant';d.id=id;d.innerHTML=`<div class="av">Tx</div><div class="ti"><div class="td"></div><div class="td"></div><div class="td"></div></div>`;c.appendChild(d);c.scrollTop=c.scrollHeight;return id;}
 function removeT(id){document.getElementById(id)?.remove();}
 function askS(el){document.getElementById('ci').value=el.childNodes[1].textContent.trim();send();}
 function resize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,120)+'px';}
@@ -718,10 +710,9 @@ uz.addEventListener('dragover',e=>{e.preventDefault();uz.classList.add('drag-ove
 uz.addEventListener('dragleave',()=>uz.classList.remove('drag-over'));
 uz.addEventListener('drop',e=>{
   e.preventDefault();uz.classList.remove('drag-over');
-  const f=e.dataTransfer.files[0];
-  if(f){const dt=new DataTransfer();dt.items.add(f);document.getElementById('fi').files=dt.files;handleUpload({target:{files:[f]}});}
+  Array.from(e.dataTransfer.files).forEach(f=>queueFile(f));
 });
 </script>
 </body>
 </html>
-<!-- v1773935999 -->
+<!-- v1773936999 -->
